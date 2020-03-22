@@ -1,12 +1,12 @@
-module.exports = toolbox => {
-    toolbox.cmd = (cmd, args) => {
+module.exports = (vorpal) => {
+    vorpal.ext.cmd = (cmd, args) => {
         const {
             PSCommand
         } = require('node-powershell');
         let command = new PSCommand(cmd).addArgument(args);
         return command;
     }
-    toolbox.run = (cmd, [spinner, message]) => {
+    vorpal.ext.run = (cmd, [spinner, message]) => {
         const shell = require('node-powershell');
         const CLI = require('clui');
         const Spinner = CLI.Spinner;
@@ -27,37 +27,20 @@ module.exports = toolbox => {
         // Promise
         var promise = new Promise(function(resolve) {
             status.start();
-            //const status = toolbox.print.spin(spinner || "Running")
-
             ps.invoke()
                 .then(output => {
-                    //status.succeed(message);
                     status.stop();
-                    console.log(message);
+                    vorpal.log(message);
                     resolve(true);
                     ps.dispose();
                 })
                 .catch(err => {
-                    //status.fail("Process failed");
                     status.stop()
-                    console.log(err);
+                    vorpal.log(err);
                     ps.dispose();
                 });
         })
         return promise
-    }, toolbox.req = (requires) => {
-        const requiresCmd = new Promise(
-            (resolve, reject) => {
-                if (requires) {
-                    console.log("Requires " + requires)
-                    resolve(true);
-                } else {
-                    console.log("No requirement")
-                    reject(false);
-                }
-
-            }
-        );
     }
 }
 
