@@ -52,7 +52,7 @@ module.exports = (vorpal, toolbox) => {
         var mincsspromise = new Promise(function (resolve) {
             if (args.pro) {
                 const cssmin = cmd('npx postcss', `${srcDir} --no-map --use cssnano -d ${outDir}`)
-                const ranmincss = run(cssmin, ['Minifying CSS files...', `${print.checkmark} CSS files in ${outDir} minified`]).then(toolbox.ext(outDir, "css", "min"))
+                const ranmincss = run(cssmin, ['Minifying CSS files...', `${print.checkmark} CSS files in ${outDir} minified`]).then(toolbox.ext(outDir, "css", "min")).then(true)
                 if (ranmincss) {
                     resolve(ranmincss)
                 } else {

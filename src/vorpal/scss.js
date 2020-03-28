@@ -11,15 +11,13 @@ module.exports = (vorpal, toolbox) => {
       const { scss, prefix, cssmin } = vorpal.ext
       const ran = new Promise ( async (resolve) => {
         try {
-            /*await scss(dir, options)
+            await scss(dir, options)
             await prefix([css, dir], options)
-            await cssmin([css, dir], options)*/
-            toolbox.ext(dir, "css", "min")
+            await cssmin([css, dir], options)
             vorpal.log(`SCSS Compiling and Optimizing Complete`)
             return resolve(true)
           } catch {
             vorpal.log("Error Occurred: SCSS Compiling Didn't Finish")//TODO: Print in color
-            //FIXME: Pro mode
             return resolve(true)
           }
       })

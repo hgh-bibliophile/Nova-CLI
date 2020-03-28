@@ -1,17 +1,31 @@
 module.exports = toolbox => {
-    toolbox.ext = (outDir, type) => {
-        const dir = require('../config/pathVar.js')
-        const before = outDir + "/" + dir.name + "." + type
-        const after = dir.name + ".min" + "." + type
+    toolbox.ext = async (outDir, ext, opt) => {
+        const RenamerJS = require('renamer/index.js')
+        const renamer = new RenamerJS()
+        let renamedfiles = false
 
-        var renamepromise = new Promise(function (resolve) {
-            let renamed = toolbox.filesystem.rename(`${before}`, `${after}`)
-            if (renamed) { 
-                resolve(renamed);
+        const iffExt = new RegExp(`(${opt}\.)*${ext}$`)//Daddy's Way
+        //const iffExt = new RegExp(`(?<!${opt}\.)${ext}$`)//Lookbehind Way
+        const newExt = opt + "." + ext
+
+        const files = outDir + "/*"
+        const fileGlob = [files]
+
+        renamer.on('replace-result', replaceResult => {
+            renamedfiles = replaceResult.renamed
+        })
+        const renamepromise = new Promise(async function (resolve) {
+            await renamer.rename({
+                files: fileGlob,
+                find: iffExt,
+                replace: newExt
+            })
+            if (renamedfiles) {
+                resolve(renamedfiles);
+            } else {
+                resolve()
             }
         })
         return renamepromise
     }
 }
-
-
