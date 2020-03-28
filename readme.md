@@ -1,6 +1,6 @@
-# npcs CLI
+# Nova CLI
 
-A CLI for npcs.
+A CLI for Nova: The Node Compilng Helper.
 
 ## Customizing your CLI
 
