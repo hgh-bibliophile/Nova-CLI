@@ -11,9 +11,10 @@ module.exports = (vorpal, toolbox) => {
       const { scss, prefix, cssmin } = vorpal.ext
       const ran = new Promise ( async (resolve) => {
         try {
-            await scss(dir, options)
+            /*await scss(dir, options)
             await prefix([css, dir], options)
-            await cssmin([css, dir], options)
+            await cssmin([css, dir], options)*/
+            toolbox.ext(dir, "css", "min")
             vorpal.log(`SCSS Compiling and Optimizing Complete`)
             return resolve(true)
           } catch {

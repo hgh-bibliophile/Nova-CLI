@@ -5,6 +5,7 @@ module.exports = {
     run: async (toolbox) => {
         const vorpal = require('vorpal')
         const program = vorpal()
+
         const dir = require('../config/pathVar.js')
         program.log('Welcome to the Nova CLI')
         program.ext = {}
@@ -14,10 +15,10 @@ module.exports = {
             .option('-d, --dev', 'Run in dev mode.')
             .option('-p, --pro', 'Run in pro mode.')
             .action(async (args, cb) => {
+              const argOpt = args.options
               require('../vorpal/scss.js')(program, toolbox)
                 const { scssAll } = program.ext
-                vorpal.log(args)
-                //await scssAll(args)
+                await scssAll(argOpt)
                 cb()
             })
         program

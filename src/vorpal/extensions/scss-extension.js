@@ -50,10 +50,9 @@ module.exports = (vorpal, toolbox) => {
             run
         } = vorpal.ext
         var mincsspromise = new Promise(function (resolve) {
-            const inpro = args.dev ? false : args.pro ? true : false
             if (args.pro) {
                 const cssmin = cmd('npx postcss', `${srcDir} --no-map --use cssnano -d ${outDir}`)
-                const ranmincss = run(cssmin, ['Minifying CSS files...', `${print.checkmark} CSS files in ${outDir} minified`]).then(toolbox.ext(outDir, "css"))
+                const ranmincss = run(cssmin, ['Minifying CSS files...', `${print.checkmark} CSS files in ${outDir} minified`]).then(toolbox.ext(outDir, "css", "min"))
                 if (ranmincss) {
                     resolve(ranmincss)
                 } else {
