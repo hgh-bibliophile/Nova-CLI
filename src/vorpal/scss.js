@@ -14,10 +14,11 @@ module.exports = (vorpal, toolbox) => {
             await scss(dir, options)
             await prefix([css, dir], options)
             await cssmin([css, dir], options)
-            vorpal.log(print.success(`SCSS Compiling and Optimizing Complete`))
+            vorpal.log(`SCSS Compiling and Optimizing Complete`)
             return resolve(true)
           } catch {
-            vorpal.log(print.error("Error Occurred: SCSS Compiling Didn't Finish"))
+            vorpal.log("Error Occurred: SCSS Compiling Didn't Finish")//TODO: Print in color
+            //FIXME: Pro mode
             return resolve(true)
           }
       })
