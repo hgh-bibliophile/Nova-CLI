@@ -1,10 +1,10 @@
-# Plugin guide for npcs
+# Plugin guide for nova
 
-Plugins allow you to add features to npcs, such as commands and
+Plugins allow you to add features to nova, such as commands and
 extensions to the `toolbox` object that provides the majority of the functionality
-used by npcs.
+used by nova.
 
-Creating a npcs plugin is easy. Just create a repo with two folders:
+Creating a nova plugin is easy. Just create a repo with two folders:
 
 ```
 commands/
@@ -42,6 +42,6 @@ This is then accessible in your plugin's commands as `toolbox.bar`.
 
 # Loading a plugin
 
-To load a particular plugin (which has to start with `npcs-*`),
-install it to your project using `npm install --save-dev npcs-PLUGINNAME`,
-and npcs will pick it up automatically.
+To load a particular plugin (which has to start with `nova-*`),
+install it to your project using `npm install --save-dev nova-PLUGINNAME`,
+and nova will pick it up automatically.

@@ -1,10 +1,10 @@
 {
-  "name": "npcs",
+  "name": "nova",
   "version": "0.0.1",
-  "description": "npcs CLI",
+  "description": "nova CLI",
   "private": true,
   "bin": {
-    "npcs": "bin/npcs"
+    "nova": "bin/nova"
   },
   "scripts": {
     "format": "prettier --write **/*.{js,json} && standard --fix",

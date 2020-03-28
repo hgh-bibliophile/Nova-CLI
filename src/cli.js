@@ -6,9 +6,9 @@ const { build } = require('gluegun')
 async function run(argv) {
   // create a CLI runtime
   const cli = build()
-    .brand('npcs')
+    .brand('nova')
     .src(__dirname)
-    .plugins('./node_modules', { matching: 'npcs-*', hidden: true })
+    .plugins('./node_modules', { matching: 'nova-*', hidden: true })
     .plugin(__dirname + '/../node_modules/@lenne.tech/gluegun-menu/dist', {
       commandFilePattern: '*.js',
       extensionFilePattern: '*.js'

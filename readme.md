@@ -1,6 +1,6 @@
-# npcs CLI
+# nova CLI
 
-A CLI for npcs.
+A CLI for nova.
 
 ## Customizing your CLI
 

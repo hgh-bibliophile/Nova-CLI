@@ -33,6 +33,6 @@ module.exports = {
         js: './files/dist/*.js',
         img: './files/dist/photos/*.jpg ./files/dist/photos/*.png ./files/dist/photos/*.ico'
     },
-    conf: './src/config/npcs.config',
+    conf: './src/config/nova.config',
     name: project.name
 }
