@@ -3,6 +3,7 @@ module.exports = (vorpal, toolbox) => {
     vorpal.ext.scssAll = async (options) => {
       require('./extensions/scss-extension.js')(vorpal, toolbox)
       require('./extensions/dest-extension.js')(vorpal, options)
+      const log = require('log-utils')
       const { print } = toolbox
       const { dest } = vorpal.ext
       const dir = await dest("styles")
@@ -14,10 +15,10 @@ module.exports = (vorpal, toolbox) => {
             await scss(dir, options)
             await prefix([css, dir], options)
             await cssmin([css, dir], options)
-            vorpal.log(`SCSS Compiling and Optimizing Complete`)
+            console.log(log.green(`SCSS Compiling and Optimizing Complete`))
             return resolve(true)
           } catch {
-            vorpal.log("Error Occurred: SCSS Compiling Didn't Finish")//TODO: Print in color
+            console.log(log.red(`${log.error} Error Occurred: SCSS Compiling Didn't Finish`))//TODO: Print in color
             return resolve(true)
           }
       })

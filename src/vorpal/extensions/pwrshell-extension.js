@@ -10,6 +10,7 @@ module.exports = (vorpal) => {
         const shell = require('node-powershell');
         const CLI = require('clui');
         const Spinner = CLI.Spinner;
+        const log = require('log-utils');
         let ps = new shell({
             verbose: false,
             executionPolicy: 'Bypass',
@@ -30,7 +31,7 @@ module.exports = (vorpal) => {
             ps.invoke()
                 .then(output => {
                     status.stop();
-                    vorpal.log(message);
+                    console.log(`${log.success} ${message}`);
                     resolve(true);
                     ps.dispose();
                 })
