@@ -1,4 +1,4 @@
-module.exports = (vorpal) => {
+module.exports = (vorpal) => {//TODO: Switch to execa & listr
     vorpal.ext.cmd = (cmd, args) => {
         const {
             PSCommand

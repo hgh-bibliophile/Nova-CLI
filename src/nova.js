@@ -1,11 +1,9 @@
 module.exports = {
-  name: 'nova',
-  alias: ['nova'],
-  run: async (toolbox) => {
+  run: async () => {
     const vorpal = require('vorpal')
     const program = vorpal()
     const log = require('log-utils')
-    const dir = require('../config/pathVar.js')
+    const dir = require('./config/pathVar.js')
     const greet = log.heading(log.magenta(`Welcome to the Nova CLI`))
     console.log(greet)
     program.ext = {}
@@ -16,7 +14,7 @@ module.exports = {
       .option('-p, --pro', 'Run in pro mode.')
       .action(async (args, cb) => {
         const argOpt = args.options
-        require('../vorpal/scss.js')(program, toolbox)
+        require('./vorpal/scss.js')(program)
         const {
           scssAll
         } = program.ext
@@ -31,7 +29,7 @@ module.exports = {
     const startCLItimeout = () => {
       return setTimeout(() => {
         process.kill(process.pid)
-      }, 15000)
+      }, 5000)
     }
     let endCLI = startCLItimeout()
     program.on('keypress', () => {

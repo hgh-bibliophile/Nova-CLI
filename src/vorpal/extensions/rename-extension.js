@@ -1,5 +1,5 @@
-module.exports = toolbox => {
-    toolbox.ext = async (outDir, ext, opt) => {
+module.exports = (vorpal) => {
+    vorpal.ext.ext = async (outDir, ext, opt) => {
         const RenamerJS = require('renamer/index.js')
         const renamer = new RenamerJS()
         let renamedfiles = false
@@ -18,7 +18,8 @@ module.exports = toolbox => {
             await renamer.rename({
                 files: fileGlob,
                 find: iffExt,
-                replace: newExt
+                replace: newExt,
+                force: true
             })
             if (renamedfiles) {
                 resolve(renamedfiles);

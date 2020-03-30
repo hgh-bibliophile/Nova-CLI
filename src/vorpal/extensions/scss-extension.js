@@ -1,4 +1,4 @@
-module.exports = (vorpal, toolbox) => {
+module.exports = (vorpal) => {
     vorpal.ext.scss = (outputDir, args) => {
         require('./pwrshell-extension')(vorpal)
         const {
@@ -36,6 +36,7 @@ module.exports = (vorpal, toolbox) => {
     },
     vorpal.ext.cssmin = ([srcDir, outDir], args) => {
         require('./pwrshell-extension')(vorpal)
+        require('./rename-extension')(vorpal)
         const {
             cmd,
             run
@@ -43,7 +44,7 @@ module.exports = (vorpal, toolbox) => {
         var mincsspromise = new Promise(function (resolve) {
             if (args.pro) {
                 const cssmin = cmd('npx postcss', `${srcDir} --no-map --use cssnano -d ${outDir}`)
-                const ranmincss = run(cssmin, ['Minifying CSS files...', `CSS files in ${outDir} minified`]).then(toolbox.ext(outDir, "css", "min")).then(true)
+                const ranmincss = run(cssmin, ['Minifying CSS files...', `CSS files in ${outDir} minified`]).then(vorpal.ext.ext(outDir, "css", "min")).then(true)
                 if (ranmincss) {
                     resolve(ranmincss)
                 } else {
