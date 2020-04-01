@@ -1,4 +1,4 @@
-
+//scss.js
 module.exports = (vorpal) => {
     vorpal.ext.scssAll = async (options) => {
       require('./extensions/scss-extension.js')(vorpal)
@@ -11,8 +11,8 @@ module.exports = (vorpal) => {
       const { scss, prefix, cssmin } = vorpal.ext
       const ran = new Promise ( async (resolve) => {
         try {
-            //await scss(dir, options)
-            //await prefix([css, dir], options)
+            await scss(dir, options)
+            await prefix([css, dir], options)
             await cssmin([css, dir], options)
             console.log(color.green(`SCSS Compiling and Optimizing Complete`))
             return resolve(true)
@@ -24,4 +24,3 @@ module.exports = (vorpal) => {
       return ran
     }
 }
-
