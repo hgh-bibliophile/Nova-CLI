@@ -1,5 +1,5 @@
-module.exports = (vorpal, options) => {
-    vorpal.ext.dest = async (outputDir) => {
+module.exports = (nova, options) => {
+    nova.ext.dest = async (outputDir) => {
         const dir = require('../../config/pathVar.js')
         if (options.dev) {
             return dir.tmp[outputDir]

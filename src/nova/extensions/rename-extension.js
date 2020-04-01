@@ -1,5 +1,5 @@
-module.exports = (vorpal) => {
-    vorpal.ext.ext = async (outDir, ext, opt) => {
+module.exports = (nova) => {
+    nova.ext.ext = async (outDir, ext, opt) => {
         const RenamerJS = require('renamer/index.js')
         const renamer = new RenamerJS()
         let renamedfiles = false

@@ -1,14 +1,15 @@
 //scss.js
-module.exports = (vorpal) => {
-    vorpal.ext.scssAll = async (options) => {
-      require('./extensions/scss-extension.js')(vorpal)
-      require('./extensions/dest-extension.js')(vorpal, options)
+module.exports = (nova) => {
+    nova.ext.scssAll = async (options) => {
+      //require('./extensions/scss-extension.js')(nova)
+      //require('./extensions/dest-extension.js')(nova, options)
+      require('./extensions.js')(nova, options)
       const color = require('log-utils')
-      const { dest } = vorpal.ext
+      const { dest } = nova.ext
       const dir = await dest("styles")
       const css = await dest('css')
 
-      const { scss, prefix, cssmin } = vorpal.ext
+      const { scss, prefix, cssmin } = nova.ext
       const ran = new Promise ( async (resolve) => {
         try {
             await scss(dir, options)

@@ -1,10 +1,10 @@
-module.exports = (vorpal) => {
-    vorpal.ext.scss = (outputDir, args) => {
-        require('./pwrshell-extension')(vorpal)
+module.exports = (nova) => {
+    nova.ext.scss = (outputDir, args) => {
+        //require('./pwrshell-extension')(nova)
         const {
             cmd,
             run
-        } = vorpal.ext
+        } = nova.ext
         const dir = require('../../config/pathVar.js')
         var scsspromise = new Promise(function (resolve) {
             const srcmps = args.dev ? `--source-map` : args.pro ? `--no-source-map` : `--source-map`
@@ -17,13 +17,13 @@ module.exports = (vorpal) => {
         return scsspromise
 
     },
-    vorpal.ext.prefix = ([srcDir, outDir], args) => {
+    nova.ext.prefix = ([srcDir, outDir], args) => {
         //Defines Dependencies
-        require('./pwrshell-extension')(vorpal)
+        require('./pwrshell-extension')(nova)
         const {
             cmd,
             run
-        } = vorpal.ext
+        } = nova.ext
         var prefixpromise = new Promise(function (resolve) {
             const srcmps = args.dev ? `--map` : args.pro ? `--no-map` : `--map`
             const prefix = cmd('npx postcss', `${srcDir} --use autoprefixer ${srcmps} -d ${outDir}`)
@@ -34,17 +34,17 @@ module.exports = (vorpal) => {
         })
         return prefixpromise
     },
-    vorpal.ext.cssmin = ([srcDir, outDir], args) => {
-        require('./pwrshell-extension')(vorpal)
-        require('./rename-extension')(vorpal)
+    nova.ext.cssmin = ([srcDir, outDir], args) => {
+        require('./pwrshell-extension')(nova)
+        require('./rename-extension')(nova)
         const {
             cmd,
             run
-        } = vorpal.ext
+        } = nova.ext
         var mincsspromise = new Promise(function (resolve) {
             if (args.pro) {
                 const cssmin = cmd('npx postcss', `${srcDir} --no-map --use cssnano -d ${outDir}`)
-                const ranmincss = run(cssmin, ['Minifying CSS files...', `CSS files in ${outDir} minified`]).then(vorpal.ext.ext(outDir, "css", "min")).then(true)
+                const ranmincss = run(cssmin, ['Minifying CSS files...', `CSS files in ${outDir} minified`]).then(nova.ext.ext(outDir, "css", "min")).then(true)
                 if (ranmincss) {
                     resolve(ranmincss)
                 } else {

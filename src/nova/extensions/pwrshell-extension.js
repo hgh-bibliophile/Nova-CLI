@@ -1,12 +1,12 @@
-module.exports = (vorpal) => {//TODO: Switch to execa & listr
-    vorpal.ext.cmd = (cmd, args) => {
+module.exports = (nova) => {//TODO: Switch to execa & listr
+    nova.ext.cmd = (cmd, args) => {
         const {
             PSCommand
         } = require('node-powershell');
         let command = new PSCommand(cmd).addArgument(args);
         return command;
     }
-    vorpal.ext.run = (cmd, [spinner, message]) => {
+    nova.ext.run = (cmd, [spinner, message]) => {
         const shell = require('node-powershell');
         const CLI = require('clui');
         const Spinner = CLI.Spinner;
@@ -37,7 +37,7 @@ module.exports = (vorpal) => {//TODO: Switch to execa & listr
                 })
                 .catch(err => {
                     status.stop()
-                    vorpal.log(err);
+                    nova.log(err);
                     ps.dispose();
                 });
         })
