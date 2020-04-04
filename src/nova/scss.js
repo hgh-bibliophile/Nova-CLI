@@ -1,14 +1,15 @@
 //scss.js
-module.exports = (nova) => {
-  nova.ext.scssAll = async (options) => {
+module.exports = nova => {
+  nova.ext.scssAll = async options => {
     require('./extensions.js')(nova, options)
     const color = require('log-utils')
-    const Listr = require('listr');
+    const Listr = require('listr')
     const { dest, scss, prefix, cssmin } = nova.ext
-    const dir = await dest("styles")
+    const dir = await dest('styles')
     const css = await dest('css')
 
-    const tasks = new Listr([{
+    const tasks = new Listr([
+      {
         title: `Compile .scss files`,
         task: () => scss(dir, options)
       },
@@ -23,7 +24,7 @@ module.exports = (nova) => {
       }
     ])
 
-    const ran = new Promise(async (resolve) => {
+    const ran = new Promise(async resolve => {
       try {
         await tasks.run().catch(err => {
           console.error(err)
@@ -31,7 +32,11 @@ module.exports = (nova) => {
         console.log(color.green(`SCSS Compiling and Optimizing Complete`))
         return resolve(true)
       } catch {
-        console.log(color.red(`${color.error} Error Occurred: SCSS Compiling Didn't Finish`))
+        console.log(
+          color.red(
+            `${color.error} Error Occurred: SCSS Compiling Didn't Finish`
+          )
+        )
         return resolve(true)
       }
     })
