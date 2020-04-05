@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "ansi-colors": "^4.1.1",
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.7.5",
     "clui": "^0.3.6",
     "commander": "^5.0.0",
     "cssnano": "^4.1.10",
@@ -24,11 +24,14 @@
     "log-utils": "^1.0.0",
     "node-powershell": "^4.0.0",
     "postcss-cli": "^7.1.0",
-    "prettier": "^1.12.1",
+    "prettier": "^2.0.3",
     "renamer": "^1.1.4"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
+  },
+  "devDependencies": {
+    "execution-time": "^1.4.1"
   }
 }
