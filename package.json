@@ -1,37 +1,37 @@
 {
-  "name": "nova",
-  "version": "0.0.1",
-  "description": "Nova CLI",
-  "private": true,
-  "bin": {
-    "nova": "bin/nova"
-  },
-  "files": [
-    "src",
-    "readme.md",
-    "docs",
-    "bin"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "ansi-colors": "^4.1.1",
-    "autoprefixer": "^9.7.5",
-    "clui": "^0.3.6",
-    "commander": "^5.0.0",
-    "cssnano": "^4.1.10",
-    "enquirer": "^2.3.4",
-    "listr": "^0.14.3",
-    "log-utils": "^1.0.0",
-    "node-powershell": "^4.0.0",
-    "postcss-cli": "^7.1.0",
-    "prettier": "^2.0.3",
-    "renamer": "^1.1.4"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
-  "devDependencies": {
-    "execution-time": "^1.4.1"
-  }
+	"name": "nova",
+	"version": "0.0.1",
+	"description": "Nova CLI",
+	"private": true,
+	"bin": {
+		"nova": "bin/nova"
+	},
+	"files": [
+		"src",
+		"readme.md",
+		"docs",
+		"bin"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"ansi-colors": "^4.1.1",
+		"autoprefixer": "^9.7.5",
+		"clui": "^0.3.6",
+		"commander": "^5.0.0",
+		"cssnano": "^4.1.10",
+		"enquirer": "^2.3.4",
+		"listr": "^0.14.3",
+		"log-utils": "^1.0.0",
+		"node-powershell": "^4.0.0",
+		"postcss-cli": "^7.1.0",
+		"prettier": "^2.0.3",
+		"renamer": "^1.1.4"
+	},
+	"prettier": {
+		"semi": false,
+		"singleQuote": true
+	},
+	"devDependencies": {
+		"execution-time": "^1.4.1"
+	}
 }
