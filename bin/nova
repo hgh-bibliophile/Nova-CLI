@@ -2,6 +2,6 @@
 
 
 // run the CLI with the current process arguments
-require('../src/cli').run(process.argv)
+require('../src/nova.js').run()
 
 
