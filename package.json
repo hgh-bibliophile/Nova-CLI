@@ -12,6 +12,10 @@
 		"docs",
 		"bin"
 	],
+	"scripts": {
+		"sass": "sass",
+		"postcss": "postcss"
+	},
 	"license": "MIT",
 	"dependencies": {
 		"ansi-colors": "^4.1.1",
@@ -25,7 +29,8 @@
 		"node-powershell": "^4.0.0",
 		"postcss-cli": "^7.1.0",
 		"prettier": "^2.0.3",
-		"renamer": "^1.1.4"
+		"renamer": "^1.1.4",
+		"sass": "^1.26.3"
 	},
 	"prettier": {
 		"semi": false,
