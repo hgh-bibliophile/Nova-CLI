@@ -1,25 +1,23 @@
 # Nova CLI
 
-A CLI for Nova: The Node Compilng Helper.
+A CLI for Nova: The Node Compilng Helper
+---
+## Commands
+```
+Usage: $ nova <cmd> [opt]
+```
+#### scss
+Compile and prefix .scss files in `./files/src/styles` to .css files. If `-p` is added, files will be minified as well.
+```
+Usage: $ nova scss [options]
 
-## Customizing your CLI
+Compile .scss files
 
-Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs.
-
-## Publishing to NPM
-
-To package your CLI up for NPM, do this:
-
-```shell
-$ npm login
-$ npm whoami
-$ npm lint
-$ npm test
-(if typescript, run `npm run build` here)
-$ npm publish
+Options:
+  -d, --dev   Run in dev mode. (default: true)
+  -p, --pro   Run in pro mode. (default: false)
+  -h, --help  display help for command
 ```
 
-# License
 
-MIT - see LICENSE
 
