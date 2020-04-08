@@ -1,74 +1,60 @@
-const sass = 'npx sass'
-const postcss = 'npx postcss'
-/*const sass = 'npm run sass --'
-const postcss = 'npm run postcss --'*///FIXME: npx doesn't work with nova.exe --> Try execa??
+const sass = 'sass'
+const postcss = 'postcss'
+const execa = require('execa')
 module.exports = (nova) => {
-    nova.ext.scss = (outputDir, args) => {
-    //require('./pwrshell-extension')(nova)
-    const { cmd, run } = nova.ext
+  nova.ext.scss = (outputDir, args) => {
     const dir = require('../../config/pathVar.js')
-    var scsspromise = new Promise(function (resolve) {
+    var scsspromise = new Promise(async (resolve, reject) => {
       const srcmps = args.dev
         ? `--source-map`
         : args.pro
         ? `--no-source-map`
         : `--source-map`
-      const scss = cmd(`${sass}`, `${srcmps} ${dir.src.styles}:${outputDir}`)
-      const ranscss = run(scss, [
-        'Compiling SCSS files...',
-        `SCSS files compiled to ${outputDir}`,
-      ])
-      if (ranscss) {
-        resolve(ranscss)
+      try {
+        await execa(
+          `${sass}`,
+          [`${srcmps}`, `${dir.src.styles}:${outputDir}`],
+          { preferLocal: true }
+        )
+        resolve(true)
+      } catch (error) {
+        reject(error)
       }
     })
     return scsspromise
-    },
-    nova.ext.prefix = ([srcDir, outDir], args) => {
-      //Defines Dependencies
-      require('./pwrshell-extension')(nova)
-      const { cmd, run } = nova.ext
-      var prefixpromise = new Promise(function (resolve) {
-        const srcmps = args.dev ? `--map` : args.pro ? `--no-map` : `--map`
-        const prefix = cmd(
+  },
+  nova.ext.prefix = ([srcDir, outDir], args) => {
+    var prefixpromise = new Promise(async (resolve, reject) => {
+      const srcmps = args.dev ? `--map` : args.pro ? `--no-map` : `--map`
+      try {
+        await execa(
           `${postcss}`,
-          `${srcDir} --use autoprefixer ${srcmps} -d ${outDir}`
+          [`${srcDir}`,`${srcmps} --use autoprefixer -d ${outDir}`],
+          { preferLocal: true }
         )
-        const ranprefix = run(prefix, [
-          'Prefixing CSS files...',
-          `CSS files in ${outDir} prefixed`,
-        ])
-        if (ranprefix) {
-          resolve(ranprefix)
-        }
-      })
-      return prefixpromise
-    },
-    nova.ext.cssmin = ([srcDir, outDir], args) => {
-      require('./pwrshell-extension')(nova)
-      require('./rename-extension')(nova)
-      const { cmd, run } = nova.ext
-      var mincsspromise = new Promise(function (resolve) {
-        if (args.pro) {
-          const cssmin = cmd(
-            `${postcss}`,
-            `${srcDir} --no-map --use cssnano -d ${outDir}`
-          )
-          const ranmincss = run(cssmin, [
-            'Minifying CSS files...',
-            `CSS files in ${outDir} minified`,
-          ])
-            .then(nova.ext.ext(outDir, 'css', 'min'))
-            .then(true)
-          if (ranmincss) {
-            resolve(ranmincss)
-          } else {
-            resolve()
-          }
-        } else {
-          resolve()
-        }
-      })
-      return mincsspromise
+        resolve(true)
+      } catch (error) {
+        reject(error)
+      }
+    })
+    return prefixpromise
+  },
+  nova.ext.cssmin = ([srcDir, outDir], args) => {
+    require('./rename-extension')(nova)
+    var mincsspromise = new Promise(async (resolve, reject) => {
+      if (args.pro) {
+        try {
+        await execa(
+          `${postcss}`,
+          [`${srcDir}`,`--no-map --use cssnano -d ${outDir}`],
+          { preferLocal: true }
+        ).then(nova.ext.ext(outDir, 'css', 'min'))
+        resolve(true)
+      } catch (error) {
+        reject(error)
+      }
     }
+    })
+    return mincsspromise
+  }
 }
