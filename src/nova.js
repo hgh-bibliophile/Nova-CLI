@@ -19,16 +19,6 @@ module.exports = {
         const results = perf.stop()
         console.log(results.preciseWords)
       })
-    nova
-      .command('js')
-      .description('Transpile .js files')
-      .option('-d, --dev', 'Run in dev mode.', false)
-      .option('-p, --pro', 'Run in pro mode.', false)
-      .action(async args => {
-        require('./nova/js.js')(nova)
-        const { jsAll } = nova.ext
-        await jsAll(args)
-      })
     nova.parse(process.argv)
   }
 }

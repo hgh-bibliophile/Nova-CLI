@@ -1,6 +1,6 @@
 {
 	"name": "nova",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "Nova CLI",
 	"private": true,
 	"bin": {
@@ -12,29 +12,17 @@
 		"docs",
 		"bin"
 	],
-	"scripts": {
-		"sass": "sass",
-		"postcss": "postcss"
-	},
 	"license": "MIT",
 	"dependencies": {
-		"ansi-colors": "^4.1.1",
 		"autoprefixer": "^9.7.5",
-		"clui": "^0.3.6",
 		"commander": "^5.0.0",
 		"cssnano": "^4.1.10",
-		"enquirer": "^2.3.4",
 		"execa": "^4.0.0",
 		"listr": "^0.14.3",
 		"log-utils": "^1.0.0",
 		"postcss-cli": "^7.1.0",
-		"prettier": "^2.0.3",
 		"renamer": "^1.1.4",
 		"sass": "^1.26.3"
-	},
-	"prettier": {
-		"semi": false,
-		"singleQuote": true
 	},
 	"devDependencies": {
 		"execution-time": "^1.4.1"

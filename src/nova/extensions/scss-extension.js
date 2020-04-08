@@ -27,9 +27,8 @@ module.exports = (nova) => {
     var prefixpromise = new Promise(async (resolve, reject) => {
       const srcmps = args.dev ? `--map` : args.pro ? `--no-map` : `--map`
       try {
-        await execa(
-          `${postcss}`,
-          [`${srcDir}`,`${srcmps} --use autoprefixer -d ${outDir}`],
+        await execa.command(
+          `${postcss} ${srcDir} ${srcmps} --use autoprefixer --dir ${outDir}`,
           { preferLocal: true }
         )
         resolve(true)
@@ -44,9 +43,8 @@ module.exports = (nova) => {
     var mincsspromise = new Promise(async (resolve, reject) => {
       if (args.pro) {
         try {
-        await execa(
-          `${postcss}`,
-          [`${srcDir}`,`--no-map --use cssnano -d ${outDir}`],
+        await execa.command(
+          `${postcss} ${srcDir} --no-map --use cssnano --dir ${outDir}`,
           { preferLocal: true }
         ).then(nova.ext.ext(outDir, 'css', 'min'))
         resolve(true)
