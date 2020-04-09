@@ -18,6 +18,6 @@ Options:
   -p, --pro   Run in pro mode. (default: false)
   -h, --help  display help for command
 ```
-
-
-
+# Releases
+#### v1.0.0 | SCSS Features Complete
+8 April, 2020
