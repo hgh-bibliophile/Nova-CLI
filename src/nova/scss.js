@@ -4,7 +4,7 @@ module.exports = nova => {
     require('./extensions.js')(nova, options)
     const color = require('log-utils')
     const Listr = require('listr')
-    const { dest, scss, prefix, cssmin } = nova.ext
+    const { dest, scss, prefix, cssmin, pretty } = nova.ext
     const dir = await dest('styles')
     const css = await dest('css')
 
@@ -16,6 +16,11 @@ module.exports = nova => {
       {
         title: `Prefix .css files`,
         task: () => prefix([css, dir], options)
+      },
+      {
+        title: 'Prettify .css files',
+        enabled: () => !options.pro,
+        task: () => pretty('css', 'tmp')
       },
       {
         title: 'Minify .css files',

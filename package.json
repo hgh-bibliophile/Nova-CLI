@@ -1,10 +1,11 @@
 {
 	"name": "nova",
 	"version": "1.0.0",
-	"description": "Nova CLI",
+	"description": "Nova CLI: A CLI for all things programatic",
 	"private": true,
 	"bin": {
-		"nova": "bin/nova"
+		"nova": "bin/nova",
+		"n": "bin/nova"
 	},
 	"files": [
 		"src",
