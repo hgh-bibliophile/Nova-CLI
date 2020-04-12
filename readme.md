@@ -45,3 +45,7 @@ Options:
 #### v1.0.0 | SCSS Features Complete
 
 8 April, 2020
+
+#### v2.0.0 | Prettify Features Complete
+
+12 April, 2020
