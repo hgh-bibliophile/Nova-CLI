@@ -10,7 +10,7 @@ Usage: $ nova <cmd> [opt]
 
 #### scss
 
-Compile and prefix .scss files in `./files/src/styles` to .css files. If `-p` is added, files will be minified as well.
+Compile, prefix, and prettify .scss files in `./files/src/styles` to .css files. If `-p` is added, files will be minified instead of prettifyed.
 
 ```
 Usage: $ nova scss|s [options]
