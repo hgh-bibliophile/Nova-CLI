@@ -37,5 +37,7 @@ module.exports = {
       './files/dist/photos/*.jpg ./files/dist/photos/*.png ./files/dist/photos/*.ico'
   },
   conf: './src/config/nova.config',
+  version: project.version,
+  description: project.description,
   name: project.name
 }

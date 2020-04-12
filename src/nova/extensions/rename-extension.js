@@ -2,7 +2,7 @@ module.exports = nova => {
   nova.ext.ext = async (outDir, ext, opt) => {
     const RenamerJS = require('renamer/index.js')
     const renamer = new RenamerJS()
-    let renamedfiles = false
+    let renamedext = false
 
     const iffExt = new RegExp(`(${opt}\.)*${ext}$`) //Daddy's Way
     //const iffExt = new RegExp(`(?<!${opt}\.)${ext}$`)//Lookbehind Way
@@ -12,7 +12,7 @@ module.exports = nova => {
     const fileGlob = [files]
 
     renamer.on('replace-result', replaceResult => {
-      renamedfiles = replaceResult.renamed
+      renamedext = replaceResult.renamed
     })
     const renamepromise = new Promise(async function(resolve) {
       await renamer.rename({
@@ -21,12 +21,12 @@ module.exports = nova => {
         replace: newExt,
         force: true
       })
-      if (renamedfiles) {
-        resolve(renamedfiles)
+      if (renamedext) {
+        resolve(renamedext)
       } else {
         resolve()
       }
     })
     return renamepromise
-  }
+  }//TODO: Add rename file base function
 }
