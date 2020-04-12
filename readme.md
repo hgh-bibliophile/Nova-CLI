@@ -23,6 +23,23 @@ Options:
   -H, --help  Display help for command
 ```
 
+#### prettify
+
+Prettify all files in `./files/src` with `-a` flag, or specific file types with their specific flags.
+
+```
+Usage: $ nova prettify|p [options]
+
+Prettify files in directory
+
+Options:
+  -h, --html  Add .html files
+  -s, --scss  Add .scss files
+  -j, --js    Add .js files
+  -a, --all   Add all files
+  -H, --help  Display help for command
+```
+
 # Releases
 
 #### v1.0.0 | SCSS Features Complete
