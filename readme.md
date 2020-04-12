@@ -64,3 +64,7 @@ Options:
 #### v2.0.0 | Prettify Features Complete
 
 12 April, 2020
+
+#### v3.0.0 | JS Features Complete
+
+12 April, 2020
