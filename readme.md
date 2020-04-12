@@ -23,6 +23,21 @@ Options:
   -H, --help  Display help for command
 ```
 
+#### js
+
+Transpile and prettify .js files in `./files/src/scripts`. If `-p` is added, files will be minified instead of prettifyed.
+
+```
+Usage: $ nova js|j [options]
+
+Transpile .scss files
+
+Options:
+  -d, --dev   Run in dev mode.
+  -p, --pro   Run in pro mode.
+  -H, --help  Display help for command
+```
+
 #### prettify
 
 Prettify all files in `./files/src` with `-a` flag, or specific file types with their specific flags.
