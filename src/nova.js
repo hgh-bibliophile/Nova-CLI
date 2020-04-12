@@ -1,11 +1,11 @@
 const perf = require("execution-time")() // Dev Test
 const { program } = require("commander")
-const project = require("../package.json")
-const scssOpt = (args) => {
+const project = require("./config/pathVar.js")
+const modeOpt = (args) => {
 	args.dev = args.dev === undefined ? false : args.dev //TODO: create argVal function
 	args.pro = args.pro === undefined ? false : args.pro
 }
-const prettifyOpt = (args) => {
+const fileOpt = (args) => {
 	args.html = args.html === undefined ? false : args.html
 	args.scss = args.scss === undefined ? false : args.scss
 	args.js = args.js === undefined ? false : args.js
@@ -39,8 +39,21 @@ module.exports = {
 			.action(async (args) => {
 				require("./nova/scss.js")(nova)
 				const { scssAll } = nova.ext
-				scssOpt(args)
+				modeOpt(args)
 				await scssAll(args)
+				logTime()
+      })
+    nova
+			.command("js")
+			.alias("j")
+			.description("Transpile .js files")
+			.option("-d, --dev", "Run in dev mode.")
+			.option("-p, --pro", "Run in pro mode.")
+			.action(async (args) => {
+				require("./nova/js.js")(nova)
+				const { jsAll } = nova.ext
+				modeOpt(args)
+				await jsAll(args)
 				logTime()
 			})
 		nova
@@ -54,7 +67,7 @@ module.exports = {
 			.action(async (args) => {
 				require("./nova/prettier.js")(nova)
 				const { prettify } = nova.ext
-				prettifyOpt(args)
+				fileOpt(args)
 				await prettify(args)
 				logTime()
 			})
