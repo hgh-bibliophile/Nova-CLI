@@ -1,4 +1,5 @@
-const uglifyjs = `uglifyjs`
+const path = require("path")
+const uglifyjs = path.join(__dirname, "../../../node_modules/uglify-js/bin/uglifyjs")
 const execa = require('execa')
 const mkdirp = require('mkdirp')
 module.exports = (nova) => {
@@ -13,9 +14,7 @@ module.exports = (nova) => {
         var jspromise = new Promise(async (resolve, reject) => {
         try {
             await mkdirp(outDir)
-            await execa.command(`${uglifyjs} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
-                { preferLocal: true }
-            )
+            await execa.command(`${uglifyjs} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`)
             resolve(true)
         } catch (error) {
             reject(error)
