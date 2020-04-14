@@ -42,8 +42,8 @@ module.exports = {
 				modeOpt(args)
 				await scssAll(args)
 				logTime()
-      })
-    nova
+      		})
+    	nova
 			.command("js")
 			.alias("j")
 			.description("Transpile .js files")
@@ -54,6 +54,19 @@ module.exports = {
 				const { jsAll } = nova.ext
 				modeOpt(args)
 				await jsAll(args)
+				logTime()
+			})
+		nova
+			.command("img")
+			.alias("i")
+			.description("Optimize images")
+			.option("-d, --dev", "Run in dev mode.")
+			.option("-p, --pro", "Run in pro mode.")
+			.action(async (args) => {
+				require("./nova/img.js")(nova)
+				const { imgAll } = nova.ext
+				modeOpt(args)
+				await imgAll(args)
 				logTime()
 			})
 		nova
