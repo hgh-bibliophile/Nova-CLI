@@ -15,7 +15,7 @@
 	],
 	"license": "MIT",
 	"dependencies": {
-		"autoprefixer": "^9.7.5",
+		"autoprefixer": "^9.7.6",
 		"commander": "^5.0.0",
 		"cssnano": "^4.1.10",
 		"execa": "^4.0.0",
@@ -26,7 +26,7 @@
 		"prettier": "^2.0.4",
 		"renamer": "^1.1.4",
 		"sass": "^1.26.3",
-		"uglify-js": "^3.8.1"
+		"terser": "^4.6.11"
 	},
 	"devDependencies": {
 		"execution-time": "^1.4.1"

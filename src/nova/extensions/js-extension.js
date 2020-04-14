@@ -1,4 +1,4 @@
-const uglifyjs = `uglifyjs`
+const terser = `terser`
 const execa = require('execa')
 const mkdirp = require('mkdirp')
 module.exports = (nova) => {
@@ -13,7 +13,7 @@ module.exports = (nova) => {
         var jspromise = new Promise(async (resolve, reject) => {
         try {
             await mkdirp(outDir)
-            await execa.command(`${uglifyjs} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
+            await execa.command(`${terser} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
                 { preferLocal: true }
             )
             resolve(true)
