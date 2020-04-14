@@ -6,8 +6,10 @@ module.exports = (nova) => {
 		const { pretty } = nova.ext
 
 		const skipAll = () => {
-			if (options.all) {
-				return "--all flag specified, overides other flags"
+			if (!options.html && !options.scss && !options.js) {
+				return true
+			} else {
+				return false
 			}
 		}
 
@@ -15,24 +17,21 @@ module.exports = (nova) => {
 			{
 				title: "Prettify .html files",
 				enabled: () => options.html,
-				skip: () => skipAll(),
 				task: () => pretty("html"),
 			},
 			{
 				title: "Prettify .scss files",
 				enabled: () => options.scss,
-				skip: () => skipAll(),
 				task: () => pretty("scss"),
 			},
 			{
 				title: "Prettify .js files",
 				enabled: () => options.js,
-				skip: () => skipAll(),
 				task: () => pretty("js"),
 			},
 			{
 				title: "Prettify all files",
-				enabled: () => options.all,
+				enabled: () => skipAll,
 				task: () => pretty("all"),
 			},
 		])

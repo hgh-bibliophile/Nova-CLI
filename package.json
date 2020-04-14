@@ -14,7 +14,14 @@
 		"bin"
 	],
 	"scripts": {
-		"nova": "nova"
+		"nova": "yarn nova:scss && yarn nova:js && yarn nova:img && yarn nova:prettify",
+		"nova:scss": "nova scss && nova scss --pro",
+		"nova:js": "nova js && nova js --pro",
+		"nova:img": "nova img && nova img --pro",
+		"nova:prettify": "nova prettify && nova prettify -hsj"
+	},
+	"ultra": {
+		"concurrent": ["nova"]
 	},
 	"license": "MIT",
 	"dependencies": {
