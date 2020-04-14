@@ -5,14 +5,6 @@ module.exports = (nova) => {
 		const Listr = require("listr")
 		const { pretty } = nova.ext
 
-		const skipAll = () => {
-			if (!options.html && !options.scss && !options.js) {
-				return true
-			} else {
-				return false
-			}
-		}
-
 		const tasks = new Listr([
 			{
 				title: "Prettify .html files",
@@ -31,7 +23,7 @@ module.exports = (nova) => {
 			},
 			{
 				title: "Prettify all files",
-				enabled: () => skipAll,
+				enabled: () => !options.html && !options.scss && !options.js,
 				task: () => pretty("all"),
 			},
 		])
