@@ -57,14 +57,14 @@ Options:
 
 # Releases
 
-#### v1.0.0 | SCSS Features Complete
+#### v3.0.0 | JS Features Complete
 
-8 April, 2020
+12 April, 2020
 
 #### v2.0.0 | Prettify Features Complete
 
 12 April, 2020
 
-#### v3.0.0 | JS Features Complete
+#### v1.0.0 | SCSS Features Complete
 
-12 April, 2020
+8 April, 2020
