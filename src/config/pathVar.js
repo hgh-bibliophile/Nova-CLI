@@ -10,7 +10,7 @@ module.exports = {
     css: './files/src/styles/*.css',
     js: './files/src/scripts/*.js',
     img:
-      './files/src/photos/*.jpg ./files/src/photos/*.png ./files/src/photos/*.ico'
+      './files/src/photos/*.{jpg,png,ico}'
   },
   tmp: {
     root: './files/tmp',
@@ -22,7 +22,7 @@ module.exports = {
     css: './files/tmp/styles/*.css',
     js: './files/tmp/scripts/*.js',
     img:
-      './files/tmp/photos/*.jpg ./files/tmp/photos/*.png ./files/tmp/photos/*.ico'
+      './files/tmp/photos/*.{jpg,png,ico}'
   },
   dist: {
     root: './files/dist',
@@ -34,7 +34,7 @@ module.exports = {
     css: './files/dist/*.css',
     js: './files/dist/*.js',
     img:
-      './files/dist/photos/*.jpg ./files/dist/photos/*.png ./files/dist/photos/*.ico'
+      './files/dist/photos/*.{jpg,png,ico}'
   },
   conf: './src/config/nova.config',
   version: project.version,

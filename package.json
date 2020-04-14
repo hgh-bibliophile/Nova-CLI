@@ -13,12 +13,16 @@
 		"docs",
 		"bin"
 	],
+	"scripts": {
+		"nova": "nova"
+	},
 	"license": "MIT",
 	"dependencies": {
 		"autoprefixer": "^9.7.5",
 		"commander": "^5.0.0",
 		"cssnano": "^4.1.10",
 		"execa": "^4.0.0",
+		"imagemin-cli": "^5.1.0",
 		"listr": "^0.14.3",
 		"log-utils": "^1.0.0",
 		"mkdirp": "^1.0.4",
