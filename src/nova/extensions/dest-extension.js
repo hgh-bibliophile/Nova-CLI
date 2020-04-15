@@ -1,6 +1,6 @@
 module.exports = (nova, options) => {
   nova.ext.dest = async outputDir => {
-    const dir = require('../../config/pathVar.js')
+    const dir = require('../../config.js')
     if (options.dev) {
       return dir.tmp[outputDir]
     } else if (options.pro) {

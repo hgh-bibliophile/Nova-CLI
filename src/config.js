@@ -1,4 +1,6 @@
-const project = require('../../package.json')
+const project = require('../package.json')
+const path = require('path')
+const bin = path.join(__dirname, '/node_modules/.bin')
 module.exports = {
   src: {
     root: './files/src',
@@ -36,8 +38,9 @@ module.exports = {
     img:
       './files/dist/photos/*.{jpg,png,ico}'
   },
-  conf: './src/config/nova.config',
   version: project.version,
   description: project.description,
-  name: project.name
+  name: project.name,
+  bin: bin,
+  execa: { preferLocal: true, localDir: bin }
 }

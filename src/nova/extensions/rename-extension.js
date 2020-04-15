@@ -1,4 +1,4 @@
-module.exports = nova => {
+module.exports = (nova, args) => {
   nova.ext.ext = async (outDir, ext, opt) => {
     const RenamerJS = require('renamer/index.js')
     const renamer = new RenamerJS()
@@ -14,7 +14,7 @@ module.exports = nova => {
     renamer.on('replace-result', replaceResult => {
       renamedext = replaceResult.renamed
     })
-    const renamepromise = new Promise(async function(resolve) {
+    return new Promise(async function(resolve) {
       await renamer.rename({
         files: fileGlob,
         find: iffExt,
@@ -22,58 +22,67 @@ module.exports = nova => {
         force: true
       })
       if (renamedext) {
-        resolve(renamedext)
+        return resolve(renamedext)
       } else {
-        resolve()
-      }
-    })
-    return renamepromise
-  },
-  nova.ext.file = async (dir) => {
-    var Renamer = require('easy-renamer');
-    var renamer = new Renamer();
-    var path = require('path');
-    var glob = require('matched');
-    var fsys = require('fs')
-
-    const dirGlob = dir + '/**/*'
-
-    function filename(name) {
-      return function(file) {
-        return path.join(file.dirname, name + file.extname);
-      };
-    }
-    const index = '((H|h)ome|(I|i)ndex)'//new RegExp(/(home|index).*\.html$/i)
-    const about = '(A|a)bout' //new RegExp(/about.*\.html$/i)
-    const contact = '(C|c)ontact' //new RegExp(/contact.*\.html$/i)
-    const styles = '.(css|scss|sass)'//new RegExp(/.*\.(css|scss|sass)$/i)
-    const scripts = '.js'//new RegExp(/.*\.js$/i)
-    renamer.matcher(index, filename('index'))
-    renamer.matcher(about, filename('about'))
-    renamer.matcher(contact, filename('contact'))
-    renamer.matcher(styles, filename('styles'))
-    renamer.matcher(scripts, filename('scripts'))
-    //TODO: Save .min ext
-
-    
-    const renamepromise = new Promise(async function(resolve, reject) {
-      try {
-        await glob(dirGlob, function(err, files) {
-          let rnmNum = 0
-          if (err) return reject(err)
-          files.forEach(function(fp) {
-            fsys.rename(fp, renamer.rename(fp), (err) => {
-              if (err) throw err
-              rnmNum++
-            })
-          })
-          console.log(rnmNum + " files renamed")
-        })
         return resolve()
-      } catch (err) {
-        return reject(err)
       }
     })
-    return renamepromise
+  },
+  nova.ext.file = async (dir, ext, opt) => {
+	const Renamer = require('easy-renamer')
+	const path = require('path')
+	const glob = require('matched')
+	const fs = require('fs')
+	const renamer = new Renamer()
+	let dirGlob
+
+	function filename(name, ext) {
+		return (file) => {
+			optExt = opt==='min' || args.pro ? `.min` : file.extname === '.map'  ? `.${ext}` : ''
+			return path.join(file.dirname, name + optExt+ file.extname)
+		}
+	}
+    
+	const index = '((H|h)ome|(I|i)ndex)'
+	const about = '(A|a)bout'
+	const contact = '(C|c)ontact'
+	const styles = '.(css|scss|sass)'
+	const scripts = '.js'
+	if (!ext) {
+		dirGlob = dir + '/**/*'
+		renamer.matcher(index, filename('index'))
+		renamer.matcher(about, filename('about'))
+		renamer.matcher(contact, filename('contact'))
+		renamer.matcher(styles, filename('styles', 'css'))
+		renamer.matcher(scripts, filename('scripts', 'js'))
+	} else if (ext==='html') {
+		dirGlob = dir + '/**/*.html'
+		renamer.matcher(index, filename('index'))
+		renamer.matcher(about, filename('about'))
+		renamer.matcher(contact, filename('contact'))
+	} else if (ext==='css') {
+		dirGlob = dir + '/**/*.css'
+		renamer.matcher(styles, filename('styles', 'css'))
+	} else if (ext==='js') {
+		dirGlob = dir + '/**/*.js'
+		renamer.matcher(scripts, filename('scripts', 'js'))
+	}
+        
+	return new Promise(async (resolve, reject) => {
+		try {
+			await glob(dirGlob, {nodir: true, ignore: ['**/photos/*']}, (err, files) => {
+			if (err) return reject(err)
+			files.forEach((fp) =>{
+				if (fp === renamer.rename(fp)) return
+				fs.rename(fp, renamer.rename(fp), (err) => {
+					if (err) return reject(err)
+				})
+			})
+			return resolve(true)
+			})
+		} catch (err) {
+			return reject(err)
+		}
+	})
   }
 }

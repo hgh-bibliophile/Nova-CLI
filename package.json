@@ -30,6 +30,19 @@
 			"nova:prettify"
 		]
 	},
+	"signale": {
+		"displayScope": true,
+		"displayBadge": false,
+		"displayDate": false,
+		"displayFilename": true,
+		"displayLabel": true,
+		"displayTimestamp": false,
+		"underlineLabel": false,
+		"underlineMessage": false,
+		"underlinePrefix": false,
+		"underlineSuffix": false,
+		"uppercaseLabel": false
+	},
 	"license": "MIT",
 	"dependencies": {
 		"autoprefixer": "^9.7.6",
@@ -46,11 +59,10 @@
 		"postcss-cli": "^7.1.0",
 		"prettier": "^2.0.4",
 		"renamer": "^1.1.4",
-		"replace-in-file": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\replace-in-file",
+		"replace-in-file": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\replace-in-file\\",
 		"sass": "^1.26.3",
+		"signale": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\signale",
 		"terser": "^4.6.11"
 	},
-	"devDependencies": {
-		"execution-time": "^1.4.1"
-	}
+	"devDependencies": {}
 }
