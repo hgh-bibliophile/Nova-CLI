@@ -84,6 +84,20 @@ module.exports = {
 				await prettify(args)
 				logTime()
 			})
+		nova
+			.command("rnm")
+			.alias("r")
+			.description("Prettify files in directory")
+			.option("-d, --dev", "Run in dev mode.")
+			.option("-p, --pro", "Run in pro mode.")
+			.action(async (args) => {
+				require("./nova/extensions/rename-extension.js")(nova)
+				const { file } = nova.ext
+				const dir = require('./config/pathVar.js')
+				modeOpt(args)
+				await file(dir.dist.root)
+				logTime()
+			})
 		nova.parse(process.argv)
 	},
 }
