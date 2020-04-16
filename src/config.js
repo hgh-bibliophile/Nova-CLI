@@ -1,4 +1,23 @@
-const project = require('../../package.json')
+const project = require('../package.json')
+const path = require('path')
+/*node*/
+const bin = path.join(__dirname, '../node_modules/.bin')
+const sass = `sass`
+const postcss = `postcss`
+const terser = `terser`
+const imagemin = `imagemin`
+const prettier = `prettier`
+const config = {preferLocal: true, localDir: bin }
+const exe = false
+/*pkg
+const bin = ''
+const imagemin = ``
+const sass = path.join(__dirname, '../node_modules/sass/sass.js')
+const postcss = path.join(__dirname, '../node_modules/postcss-cli/bin/postcss')
+const terser = path.join(__dirname, '../node_modules/terser/bin/terser')
+const prettier = path.join(__dirname, "../node_modules/prettier/bin-prettier.js")
+const config = {}
+const exe = true*/
 module.exports = {
   src: {
     root: './files/src',
@@ -36,8 +55,17 @@ module.exports = {
     img:
       './files/dist/photos/*.{jpg,png,ico}'
   },
-  conf: './src/config/nova.config',
   version: project.version,
   description: project.description,
-  name: project.name
+  name: project.name,  
+  exe: exe,
+  execa: { 
+	  config: config,
+	  bin: bin,
+	  sass: sass,
+	  postcss: postcss,
+	  terser: terser,
+	  prettier: prettier,
+	  imagemin: imagemin
+  }	  
 }

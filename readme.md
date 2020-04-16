@@ -57,6 +57,10 @@ Options:
 
 # Releases
 
+#### v4.0.0 | Img Features Complete
+
+14 April, 2020
+
 #### v3.0.0 | JS Features Complete
 
 12 April, 2020

@@ -1,7 +1,7 @@
 module.exports = (nova) => {
 	nova.ext.prettify = async (options) => {
 		require("./extensions.js")(nova, options)
-		const color = require("log-utils")
+		const signale = require('signale')
 		const Listr = require("listr")
 		const { pretty } = nova.ext
 
@@ -28,20 +28,15 @@ module.exports = (nova) => {
 			},
 		])
 
-		const ran = new Promise(async (resolve) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				await tasks.run().catch((err) => {
-					console.error(err)
-				})
-				console.log(color.green(`Prettifying Complete`))
+				await tasks.run()
+				signale.success(`Prettifying Complete`)
 				return resolve(true)
-			} catch {
-				console.log(
-					color.red(`${color.error} Error Occurred: Prettifying Didn't Finish`)
-				)
-				return resolve(true)
+			} catch (err) {
+				signale.error(`Error Occurred: Prettifying Didn't Finish`)
+				return reject(err)
 			}
 		})
-		return ran
 	}
 }

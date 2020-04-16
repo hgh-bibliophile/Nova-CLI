@@ -19,28 +19,52 @@
 		"nova:scss": "nova scss && nova scss --pro",
 		"nova:js": "nova js && nova js --pro",
 		"nova:img": "nova img && nova img --pro",
-		"nova:prettify": "nova prettify && nova prettify -hsj"
+		"nova:prettify": "nova prettify && nova prettify -hsj",
+		"build": "yarn unlink && yarn pkg && ./nova scss",
+		"pkg": "pkg -t host . "
 	},
 	"ultra": {
-		"concurrent": ["nova", "nova:scss",  "nova:js", "nova:img", "nova:prettify"]
+		"concurrent": [
+			"nova",
+			"nova:scss",
+			"nova:js",
+			"nova:img",
+			"nova:prettify"
+		]
+	},
+	"signale": {
+		"displayScope": true,
+		"displayBadge": false,
+		"displayDate": false,
+		"displayFilename": true,
+		"displayLabel": true,
+		"displayTimestamp": false,
+		"underlineLabel": false,
+		"underlineMessage": false,
+		"underlinePrefix": false,
+		"underlineSuffix": false,
+		"uppercaseLabel": false
 	},
 	"license": "MIT",
 	"dependencies": {
 		"autoprefixer": "^9.7.6",
 		"commander": "^5.0.0",
 		"cssnano": "^4.1.10",
+		"easy-renamer": "^0.3.1",
 		"execa": "^4.0.0",
+		"htmlclean-cli": "^1.0.9",
 		"imagemin-cli": "^5.1.0",
 		"listr": "^0.14.3",
 		"log-utils": "^1.0.0",
+		"matched": "^5.0.0",
 		"mkdirp": "^1.0.4",
+		"ncp": "^2.0.0",
 		"postcss-cli": "^7.1.0",
 		"prettier": "^2.0.4",
 		"renamer": "^1.1.4",
+		"replace-in-file": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\replace-in-file\\",
 		"sass": "^1.26.3",
+		"signale": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\signale",
 		"terser": "^4.6.11"
-	},
-	"devDependencies": {
-		"execution-time": "^1.4.1"
 	}
 }

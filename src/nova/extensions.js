@@ -4,5 +4,7 @@ module.exports = (nova, options) => {
   require('./extensions/img-extension.js')(nova)
   require('./extensions/prettier-extension.js')(nova)
   require('./extensions/dest-extension.js')(nova, options)
-  require('./extensions/rename-extension')(nova)
+  require("./extensions/rename-extension.js")(nova, options)
+  require("./extensions/replace-extension.js")(nova, options)
+
 }
