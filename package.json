@@ -15,11 +15,13 @@
 	],
 	"scripts": {
 		"ultra": "ultra nova",
-		"nova": "yarn nova:scss && yarn nova:js && yarn nova:prettify",
+		"nova": "yarn nova:scss && yarn nova:js && yarn nova:img && yarn nova:prettify",
 		"nova:scss": "nova scss && nova scss --pro",
 		"nova:js": "nova js && nova js --pro",
 		"nova:img": "nova img && nova img --pro",
-		"nova:prettify": "nova prettify && nova prettify -hsj"
+		"nova:prettify": "nova prettify && nova prettify -hsj",
+		"build": "yarn unlink && yarn pkg && ./nova scss",
+		"pkg": "pkg -t host . "
 	},
 	"ultra": {
 		"concurrent": [
@@ -56,6 +58,7 @@
 		"log-utils": "^1.0.0",
 		"matched": "^5.0.0",
 		"mkdirp": "^1.0.4",
+		"ncp": "^2.0.0",
 		"postcss-cli": "^7.1.0",
 		"prettier": "^2.0.4",
 		"renamer": "^1.1.4",
@@ -63,6 +66,5 @@
 		"sass": "^1.26.3",
 		"signale": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\Nova\\signale",
 		"terser": "^4.6.11"
-	},
-	"devDependencies": {}
+	}
 }

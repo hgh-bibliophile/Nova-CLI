@@ -29,7 +29,7 @@ module.exports = nova => {
       }
     ])
 
-    return new Promise(async resolve => {
+    return new Promise(async (resolve,reject) => {
       try {
         await tasks.run()
         signale.success(`SCSS Compiling and Optimizing Complete`)

@@ -1,4 +1,3 @@
-const prettier = `prettier`
 const execa = require('execa')
 module.exports = (nova) => {
     nova.ext.pretty = (outDir, dirc) => {
@@ -9,8 +8,8 @@ module.exports = (nova) => {
         if (outDir === "all") fileDir = folderDir.root
         return new Promise(async (resolve, reject) => {
           try {
-            await execa.command(`${prettier} --use-tabs --write ${fileDir}`,
-              dir.execa
+            await execa.command(`${dir.execa.prettier} --use-tabs --write ${fileDir}`,
+              dir.execa.config
             )
             return resolve(true)
           } catch (error) {

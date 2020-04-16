@@ -8,7 +8,7 @@ module.exports = (nova) => {
         try {
             await mkdirp(outDir)
             await execa.command(`${htmlclean} -i ${dir.src.html} -o ${outDir}`,
-                dir.execa
+                dir.execa.config
             )
             return resolve(true)
         } catch (error) {

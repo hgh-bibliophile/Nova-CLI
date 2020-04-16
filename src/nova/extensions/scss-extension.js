@@ -1,9 +1,7 @@
-const sass = 'sass'
-const postcss = 'postcss'
 const execa = require('execa')
+const dir = require('../../config.js')
 module.exports = (nova) => {
   nova.ext.scss = (outputDir, args) => {
-    const dir = require('../../config.js')
     return new Promise(async (resolve, reject) => {
       const srcmps = args.dev
         ? `--source-map`
@@ -12,9 +10,9 @@ module.exports = (nova) => {
         : `--source-map`
       try {
         await execa(
-          `${sass}`,
+          `${dir.execa.sass}`,
           [`${srcmps}`, `${dir.src.styles}:${outputDir}`],
-          dir.execa
+          dir.execa.config
         )
         return resolve(true)
       } catch (err) {
@@ -27,8 +25,8 @@ module.exports = (nova) => {
       const srcmps = args.dev ? `--map` : args.pro ? `--no-map` : `--map`
       try {
         await execa.command(
-          `${postcss} ${srcDir} ${srcmps} --use autoprefixer --dir ${outDir}`,
-          dir.execa
+          `${dir.execa.postcss} ${srcDir} ${srcmps} --use autoprefixer --dir ${outDir}`,
+          dir.execa.config
         )
         return resolve(true)
       } catch (err) {
@@ -41,8 +39,8 @@ module.exports = (nova) => {
       if (args.pro) {
         try {
         await execa.command(
-          `${postcss} ${srcDir} --no-map --use cssnano --dir ${outDir}`,
-          dir.execa
+          `${dir.execa.postcss} ${srcDir} --no-map --use cssnano --dir ${outDir}`,
+          dir.execa.config
         )
 	      await nova.ext.file(outDir, 'css', 'min')
         return resolve(true)

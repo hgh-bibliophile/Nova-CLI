@@ -1,4 +1,3 @@
-const terser = `terser`
 const execa = require('execa')
 const mkdirp = require('mkdirp')
 module.exports = (nova) => {
@@ -13,8 +12,8 @@ module.exports = (nova) => {
         return new Promise(async (resolve, reject) => {
         try {
             await mkdirp(outDir)
-            await execa.command(`${terser} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
-                dir.execa
+            await execa.command(`${dir.execa.terser} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
+                dir.execa.config
             )
             return resolve(true)
         } catch (error) {
