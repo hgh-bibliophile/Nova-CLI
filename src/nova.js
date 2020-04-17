@@ -1,31 +1,61 @@
-const { program } = require("commander")
+const {program} = require("commander")
 const project = require("./config.js")
-const {Signale} = require('signale')
-const opt = {
-	scope: 'Time'
-}
-const run = new Signale(opt)
-const signale = new Signale()
-run.config({
-	displayFilename: false
-})
-const modeOpt = (args) => {
-	args.dev = args.dev === undefined ? false : args.dev //TODO: create argVal function
-	args.pro = args.pro === undefined ? false : args.pro
-}
-const fileOpt = (args) => {
-	args.html = args.html === undefined ? false : args.html
-	args.scss = args.scss === undefined ? false : args.scss
-	args.js = args.js === undefined ? false : args.js
-	args.all = args.all === undefined ? false : args.all
-}
-const log = err => {signale.error(err)}
+const path = require('path')
+const fs = require('fs')
+const nova = program
 
+nova.ext = {}
+nova.listr = {}
+
+let n = {
+	loggers: async () => {
+		const {Signale} = require('signale')
+		const optSignale = {types: {success: {label: 'Success'}}}
+		const optDebug = {scope: 'Debug'}
+		const config = {
+			displayBadge: false,
+			underlineLabel: false,
+			displayFilename: false
+		}
+		n.signale = new Signale(optSignale)
+		n.debug = new Signale(optDebug)
+		n.debug.disable()
+		n.run = n.debug.scope('Time')		
+		n.run.config(config)
+		n.signale.config(config)
+		n.debug.config({
+			displayBadge: false,
+			underlineLabel: false,
+			displayFilename: true
+		})
+		n.debuger = (dValue, previous) => {
+			n.debug.enable() 
+			n.run.enable()
+			return previous
+		}
+	},
+	log: (err) => {n.signale.error(err)},
+	setup: async (args, reqr = true) => {
+		await Object.entries(args.opts()).forEach(
+			(([key])=> args[key] = args[key] === undefined ? false : args[key])
+		)
+		return new Promise(async (resolve,reject) => {
+			if (!reqr) return resolve(true)
+			fullPath = await path.join(__dirname, 'nova', args._name + '.js')
+			reqrPath = await path.relative(__dirname, fullPath)
+			try {		
+				await fs.promises.access(fullPath)
+				require('./' + reqrPath)(nova, args, n.signale, n.debug)
+				return resolve(nova.ext)
+			} catch (error) {
+				return reject(new Error(reqrPath + " doesn't exist, and thus cannot be required"))
+			}
+		})
+	}
+}
 module.exports = {
 	run: async () => {
-		run.time('Run')
-  		const nova = program
-		nova.ext = {}
+		await n.loggers()
 		nova
 			.helpOption("-H, --help", "Display help for command")
 			.addHelpCommand("help [cmd]", "Display help for command")
@@ -35,17 +65,21 @@ module.exports = {
 				"Output the version number"
 			)
 			.description(project.description)
+			.option("-D, --debug", "Enable debugging output.", n.debuger)
+		
 		nova.command("scss")
 			.alias("s")
 			.description("Compile .scss files")
 			.option("-d, --dev", "Run in dev mode.")
 			.option("-p, --pro", "Run in pro mode.")
 			.action(async (args) => {
-				require("./nova/scss.js")(nova)
-				const { scssAll } = nova.ext
-				modeOpt(args)
-				await scssAll(args).catch(log)
-				run.timeEnd('Run')
+				try {
+					const scss = await n.setup(args)
+					await scss.scssAll()
+				} catch (err) {
+					n.log(err)
+				}
+				n.run.timeEnd('Run')
       		})
 		nova.command("js")
 			.alias("j")
@@ -53,11 +87,13 @@ module.exports = {
 			.option("-d, --dev", "Run in dev mode.")
 			.option("-p, --pro", "Run in pro mode.")
 			.action(async (args) => {
-				require("./nova/js.js")(nova)
-				const { jsAll } = nova.ext
-				modeOpt(args)
-				await jsAll(args).catch(log)
-				run.timeEnd('Run')
+				try {
+					const js = await n.setup(args)
+					await js.jsAll()
+				} catch (err) {
+					n.log(err)
+				}
+				n.run.timeEnd('Run')
 			})
 		nova.command("img")
 			.alias("i")
@@ -65,11 +101,13 @@ module.exports = {
 			.option("-d, --dev", "Run in dev mode.")
 			.option("-p, --pro", "Run in pro mode.")
 			.action(async (args) => {
-				require("./nova/img.js")(nova)
-				const { imgAll } = nova.ext
-				modeOpt(args)
-				await imgAll(args).catch(log)
-				run.timeEnd('Run')
+				try {
+					const img = await n.setup(args)
+					await img.imgAll()
+				} catch (err) {
+					n.log(err)
+				}
+				n.run.timeEnd('Run')
 			})
 		nova.command("prettify")
 			.alias("p")
@@ -77,13 +115,14 @@ module.exports = {
 			.option("-h, --html", "Add .html files")
 			.option("-s, --scss", "Add .scss files")
 			.option("-j, --js", "Add .js files")
-			.option("-a, --all", "Add all files")
 			.action(async (args) => {
-				require("./nova/prettier.js")(nova)
-				const { prettify } = nova.ext
-				fileOpt(args)
-				await prettify(args).catch(log)
-				run.timeEnd('Run')
+				try {
+					const prettify = await n.setup(args)
+					await prettify.prettifyAll()
+				} catch (err) {
+					n.log(err)
+				}
+				n.run.timeEnd('Run')
 			})
 		nova.command("rename")
 			.alias("r")
@@ -93,14 +132,46 @@ module.exports = {
 			.action(async (args) => {
 				require("./nova/extensions/rename-extension.js")(nova, args)
 				require("./nova/extensions/replace-extension.js")(nova, args)
+				n.setup(args, false)
 				const { file, replace } = nova.ext
 				const dir = require('./config.js')
-				modeOpt(args)
 				const rDir = args.pro ? dir.dist.root : dir.tmp.root
-				await file(rDir).catch(log)
-				//await replace().catch(log)
-				run.timeEnd('Run')
+				await file(rDir).catch(n.log)
+				//await replace().catch(n.log)
+				n.run.timeEnd('Run')
+			})
+		nova.command("all")
+			.alias("a")
+			.description("Run all commands")
+			.option("-d, --dev", "Run all in dev mode.")
+			.option("-p, --pro", "Run all in pro mode.")
+			.action(async (args) => {
+				try {
+					const all = await n.setup(args)
+					await all.runAll()
+				} catch (err) {
+					n.log(err)
+				}
+				n.run.timeEnd('Run')
+			})
+		nova.command("test")
+			.alias("t")
+			.description("Run all commands")
+			.option("-d, --dev", "Run all in dev mode.")
+			.option("-p, --pro", "Run all in pro mode.")
+			.option("-h, --html", "Add .html files")
+			.option("-s, --scss", "Add .scss files")
+			.option("-j, --js", "Add .js files")
+			.action(async (args) => {				
+				try {
+					const test = await n.setup(args, false)
+					n.signale.log("Test returned:", test)
+					n.run.timeEnd('Run')
+				} catch (err) {
+					n.log(err)
+				}
 			})
 		nova.parse(process.argv)
-	},
+		n.run.time('Run')
+	}
 }
