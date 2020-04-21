@@ -112,7 +112,7 @@ module.exports = (nova, options, signale, debug) => {
 		renamer.matcher(scripts, filename('scripts', 'js'))
 		renamer.matcher(photos, photo())
 		renamer.matcher(favicon, photo())
-		//FIXME
+		
 		return new Promise(async (resolve, reject) => {
 			try {
 				await glob(dirGlob, {nodir: true}, (err, files) => {

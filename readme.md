@@ -1,6 +1,6 @@
 # Nova CLI
 
-## A CLI for Nova: A Node Compilng Helper
+## A CLI for Nova: A Node Compiling Helper
 
 ## Commands
 
@@ -10,7 +10,7 @@ Usage: $ nova <cmd> [opt]
 
 #### scss
 
-Compile, prefix, and prettify .scss files in `./files/src/styles` to .css files. If `-p` is added, files will be minified instead of prettifyed.
+Compile, prefix, and prettify .scss files in `./files/src/styles` to .css files. If `-p` is added, files will be minified instead of prettified.
 
 ```
 Usage: $ nova scss|s [options]
@@ -25,7 +25,7 @@ Options:
 
 #### js
 
-Transpile and prettify .js files in `./files/src/scripts`. If `-p` is added, files will be minified instead of prettifyed.
+Transpile and prettify .js files in `./files/src/scripts`. If `-p` is added, files will be minified instead of prettified.
 
 ```
 Usage: $ nova js|j [options]
@@ -57,9 +57,9 @@ Options:
 
 # Releases
 
-#### v4.0.0 | Img Features Complete
+#### v4.0.0 | All, Img, & HTML Features Complete
 
-14 April, 2020
+21 April, 2020
 
 #### v3.0.0 | JS Features Complete
 
