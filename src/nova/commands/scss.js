@@ -2,12 +2,12 @@ const Listr = require('listr')
 let scss= {}
 module.exports = async (nova, options, signale, debug) => {
 	scss.setup = async () => {
-		require('./extensions.js')(nova, options, signale, debug)
+		require('../utils.js')(nova, options, signale, debug)
 		scss.css = await nova.ext.dest('css')
 		scss.dir = await nova.ext.dest('styles')
 	},
 	scss.tasks = new Listr([
-	    {
+		{
 			title: `Compile .scss files`,
 			task: () => nova.ext.scss(scss.dir)
 		},
@@ -23,7 +23,7 @@ module.exports = async (nova, options, signale, debug) => {
 		{
 			title: 'Minify .css files',
 			enabled: () => options.pro,
-			task: () => nova.ext.cssmin([scss.css,scss.dir])
+			task: async () => nova.ext.cssmin([scss.css, scss.dir])
 		}
 	]),
 	nova.listr.scss = async () => {

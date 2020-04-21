@@ -1,9 +1,9 @@
 const execa = require('execa')
 const fs = require('fs-extra')
 module.exports = (nova, options, signale, debug) => {
-    nova.ext.js = (outDir) => {
+    nova.ext.js = async (outDir) => {
         const dir = require('../../config.js')
-        const name = options.pro ? 'scripts.min': dir.name
+        const name = await nova.ext.base(dir.src.js, outDir)
         const srcmps = options.dev
         ? `--source-map`
         : options.pro
@@ -12,9 +12,10 @@ module.exports = (nova, options, signale, debug) => {
         return new Promise(async (resolve, reject) => {
         try {
             await fs.mkdirp(outDir)
-            await execa.command(`${dir.execa.terser} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
+            await execa.command(`${dir.execa.terser} ${dir.src.js} ${srcmps} -o ${name}`,
                 dir.execa.config
             )
+            await nova.ext.rename('js')
             return resolve(true)
         } catch (error) {
             return reject(error)

@@ -2,7 +2,7 @@ const Listr = require('listr')
 let all = {}
 module.exports = async (nova, options, signale, debug) => {
 	all.setup = async () => {
-		require('./index.js')(nova, options, signale, debug)
+		require('../index.js')(nova, options, signale, debug)
 	},
 	all.tasks =  new Listr([
 		{
@@ -21,14 +21,14 @@ module.exports = async (nova, options, signale, debug) => {
 			task: () => nova.listr.html()
 		},
 		{
+			title: `$ nova img` + (options.pro ? ` --pro` : ``),
+			enabled:  () => true,
+			task: () => nova.listr.img()
+		},
+		{
 			title: `$ nova prettify`,
 			enabled: () => !options.pro,
 			task: () => nova.listr.prettify()
-		},
-		{
-			title: `$ nova img` + (options.pro ? ` --pro` : ``),
-			enabled:  () => options.img,
-			task: () => nova.listr.img()
 		}
 		], {
 			concurrent: true,

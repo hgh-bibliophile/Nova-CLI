@@ -1,12 +1,15 @@
 const execa = require('execa')
-module.exports = (nova) => {
-    nova.ext.imgmin = (outDir) => {
+const fs = require('fs-extra')
+module.exports = (nova, options, signale, debug)=> {
+    nova.ext.html = (outDir) => {
         const dir = require('../../config.js')
         return new Promise(async (resolve, reject) => {
         try {
-            await execa.command(`${dir.execa.imagemin} ${dir.src.photos} -o=${outDir}`,
+            await fs.mkdirp(outDir)
+            await execa.command(`${dir.execa.htmlclean} -i ${dir.src.html} -o ${outDir}`,
                 dir.execa.config
             )
+            await nova.ext.rename('html')
             return resolve(true)
         } catch (error) {
             return reject(error)
@@ -14,9 +17,3 @@ module.exports = (nova) => {
       })
     }
 }
-
-
-
-
-
- 

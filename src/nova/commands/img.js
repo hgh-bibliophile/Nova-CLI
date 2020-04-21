@@ -2,21 +2,13 @@ const Listr = require('listr')
 let img = {}
 module.exports = async (nova, options, signale, debug) => {
 	img.setup = async () => {
-		require('./extensions.js')(nova, options, signale, debug)
-		img.opt = require('../config.js')
+		require('../utils.js')(nova, options, signale, debug)
 		img.dir = await nova.ext.dest('photos')
-		img.src = img.opt.src.photos
 	},
 	img.tasks = new Listr([
 		{
-			title: `Optimize images`,
-			enabled: () => !img.opt.exe,
-			task: () => nova.ext.imgmin(img.dir)
-		},
-		{
 			title: `Copy images`,
-			enabled: () => img.opt.exe,
-			task: () => nova.ext.copy(img. src, img.dir)
+			task: () => nova.ext.img(img.dir)
 		}
 	]),
 	nova.listr.img = async () => {
@@ -28,10 +20,10 @@ module.exports = async (nova, options, signale, debug) => {
 		return new Promise(async (resolve,reject) => {
 			try {
 				await img.tasks.run()
-				signale.success(`Image Optimizing Complete`)
+				signale.success(`Image Copying Complete`)
 				return resolve(true)
 			} catch (err) {
-				signale.error("Error Occurred: Image Optimizing Didn't Finish")
+				signale.error("Error Occurred: Image Copying Didn't Finish")
 				return reject(err)
 			}
 		})

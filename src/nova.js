@@ -43,7 +43,7 @@ let n = {
 		)
 		return new Promise(async (resolve,reject) => {
 			if (!reqr) return resolve(true)
-			fullPath = await path.join(__dirname, 'nova', args._name + '.js')
+			fullPath = await path.join(__dirname, 'nova', 'commands', args._name + '.js')
 			reqrPath = await path.relative(__dirname, fullPath)
 			try {
 				if (!project.exe) exists = await fs.pathExists(fullPath)
@@ -80,10 +80,8 @@ module.exports = {
 			.option("-p, --pro", "Run in pro mode.")
 			.action(async (args) => {
 				try {
-					//const scss = await n.setup(args)
-					//await scss.scssAll()
-					require('./nova/scss.js')(nova, args, n.signale, n.debug)
-					await nova.ext.scssAll()
+					const scss = await n.setup(args)
+					await scss.scssAll()
 				} catch (err) {
 					n.log(err)
 				}
@@ -151,7 +149,6 @@ module.exports = {
 			.description("Run all commands")
 			.option("-d, --dev", "Run all in dev mode.")
 			.option("-p, --pro", "Run all in pro mode.")
-			.option("-i, --img", "Run img command as well.")
 			.action(async (args) => {
 				try {
 					const all = await n.setup(args)

@@ -2,7 +2,7 @@ const Listr = require('listr')
 let prettify = {}
 module.exports = async (nova, options, signale, debug) => {
 	prettify.setup = async () => {
-		require('./extensions.js')(nova, options, signale, debug)
+		require('../utils.js')(nova, options, signale, debug)
 		prettify.all = !options.html && !options.scss && !options.js
 	},
 	prettify.tasks = new Listr([
@@ -27,8 +27,8 @@ module.exports = async (nova, options, signale, debug) => {
 			task: () => nova.ext.pretty("all"),
 		},
 	]),
-	nova.listr.prettify = async () => { 
-		await prettify.setup() 
+	nova.listr.prettify = async () => {
+		await prettify.setup()
 		return prettify.tasks
 	},
 	nova.ext.prettifyAll = async () => {

@@ -2,9 +2,9 @@ const Listr = require('listr')
 let html = {}
 module.exports = async (nova, options, signale, debug)=> {
 	html.setup = async () => {
-		require('./extensions.js')(nova, options, signale, debug)
+		require('../utils.js')(nova, options, signale, debug)
 		html.dir = await nova.ext.dest('root')
-		html.src = require('../config.js').src.root
+		html.src = require('../../config.js').src.root
 	},
 	html.tasks = new Listr([
 		{
@@ -15,12 +15,12 @@ module.exports = async (nova, options, signale, debug)=> {
 		{
 			title: 'Copy .html files',
 			enabled: () => !options.pro,
-			task: () => nova.ext.copy(html.src, html.dir)
+			task: () => nova.ext.copy(html.src, html.dir, 'html')
 		},
 		{
 			title: 'Prettify .html files',
 			enabled: () => !options.pro,
-			task: () => nova.ext.pretty('js', 'tmp')
+			task: () => nova.ext.pretty('html', 'tmp')
 		}
 	]),
 	nova.listr.html = async () => {
