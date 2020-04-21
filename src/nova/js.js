@@ -8,7 +8,7 @@ module.exports = async (nova, options, signale, debug)=> {
 	js.tasks = new Listr([
 		{
 			title: 'Transpile ' + (options.pro ? `and minify `: ``)+ '.js files',
-			task: () => nova.ext.js(js.dir, options)
+			task: () => nova.ext.js(js.dir)
 		},
 		{
 			title: 'Prettify .js files',

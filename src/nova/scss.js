@@ -7,27 +7,27 @@ module.exports = async (nova, options, signale, debug) => {
 		scss.dir = await nova.ext.dest('styles')
 	},
 	scss.tasks = new Listr([
-	      {
-		title: `Compile .scss files`,
-		task: () => nova.ext.scss(scss.dir, options)
-	      },
-	      {
-		title: `Prefix .css files`,
-		task: () => nova.ext.prefix([scss.css, scss.dir], options)
-	      },
-	      {
-		title: 'Prettify .css files',
-		enabled: () => !options.pro,
-		task: () => nova.ext.pretty('css', 'tmp')
-	      },
-	      {
-		title: 'Minify .css files',
-		enabled: () => options.pro,
-		task: () => nova.ext.cssmin([scss.css,scss.dir], options)
-		}		
+	    {
+			title: `Compile .scss files`,
+			task: () => nova.ext.scss(scss.dir)
+		},
+		{
+			title: `Prefix .css files`,
+			task: () => nova.ext.prefix([scss.css, scss.dir])
+		},
+		{
+			title: 'Prettify .css files',
+			enabled: () => !options.pro,
+			task: () => nova.ext.pretty('css', 'tmp')
+		},
+		{
+			title: 'Minify .css files',
+			enabled: () => options.pro,
+			task: () => nova.ext.cssmin([scss.css,scss.dir])
+		}
 	]),
-	nova.listr.scss = async () => { 
-		await scss.setup() 
+	nova.listr.scss = async () => {
+		await scss.setup()
 		return scss.tasks
 	},
 	nova.ext.scssAll = async () => {

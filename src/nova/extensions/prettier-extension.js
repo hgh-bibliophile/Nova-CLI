@@ -1,5 +1,5 @@
 const execa = require('execa')
-module.exports = (nova) => {
+module.exports = (nova, options, signale, debug) => {
     nova.ext.pretty = (outDir, dirc) => {
         const dir = require('../../config.js')
         subDir = dirc || 'src'

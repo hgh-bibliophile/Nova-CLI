@@ -31,7 +31,7 @@ module.exports = async (nova, options, signale, debug) => {
 		await prettify.setup() 
 		return prettify.tasks
 	},
-	nova.ext.prettify = async () => {
+	nova.ext.prettifyAll = async () => {
 		await prettify.setup()
 		return new Promise(async (resolve, reject) => {
 			try {

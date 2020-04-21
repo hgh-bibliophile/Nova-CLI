@@ -3,10 +3,9 @@ let img = {}
 module.exports = async (nova, options, signale, debug) => {
 	img.setup = async () => {
 		require('./extensions.js')(nova, options, signale, debug)
-		const opt = require('../config.js')
-		const dir = await nova.ext.dest('photos')
-		img.opt = opt
-		img.dir = dir
+		img.opt = require('../config.js')
+		img.dir = await nova.ext.dest('photos')
+		img.src = img.opt.src.photos
 	},
 	img.tasks = new Listr([
 		{
@@ -17,28 +16,14 @@ module.exports = async (nova, options, signale, debug) => {
 		{
 			title: `Copy images`,
 			enabled: () => img.opt.exe,
-			task: () => nova.extimgcp(img.dir)
+			task: () => nova.ext.copy(img. src, img.dir)
 		}
 	]),
-	nova.listr.img = async () => { 
-		await img.setup() 
-		return img.tasks 
-	},
-	nova.ext.scssAll = async () => {
+	nova.listr.img = async () => {
 		await img.setup()
-		return new Promise(async (resolve,reject) => {
-			try {
-				await scss.tasks.run()
-				signale.info(scss.dir,scss.css)
-				signale.success(`SCSS Compiling and Optimizing Complete`)
-				return resolve(true)
-			} catch (err) {
-				signale.error("Error Occurred: SCSS Compiling Didn't Finish")
-				return reject(err)
-			}
-		})
-	}
-	nova.ext.imgAll = async () => {	
+		return img.tasks
+	},
+	nova.ext.imgAll = async () => {
 		await img.setup()
 		return new Promise(async (resolve,reject) => {
 			try {

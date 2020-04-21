@@ -7,3 +7,4 @@ __tests__
 .history
 .exe/
 *.exe
+.novarc

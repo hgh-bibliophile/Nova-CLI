@@ -3,7 +3,7 @@ const Listr = require('listr')
 let js = {}
 module.exports = async (nova, options) => {
 	js.setup = async () => {
-		require('./extensions.js')(nova, options)
+		require('./nova/extensions.js')(nova, options)
 		js.dir = await nova.ext.dest('scripts')
 	},
 	js.tasks = new Listr([

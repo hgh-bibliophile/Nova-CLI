@@ -1,17 +1,17 @@
 const execa = require('execa')
-const mkdirp = require('mkdirp')
-module.exports = (nova) => {
-    nova.ext.js = (outDir, args) => {
+const fs = require('fs-extra')
+module.exports = (nova, options, signale, debug) => {
+    nova.ext.js = (outDir) => {
         const dir = require('../../config.js')
-        const name = args.pro ? 'scripts.min': dir.name
-        const srcmps = args.dev
+        const name = options.pro ? 'scripts.min': dir.name
+        const srcmps = options.dev
         ? `--source-map`
-        : args.pro
+        : options.pro
         ? ``
         : `--source-map`
         return new Promise(async (resolve, reject) => {
         try {
-            await mkdirp(outDir)
+            await fs.mkdirp(outDir)
             await execa.command(`${dir.execa.terser} ${dir.src.js} ${srcmps} -o ${outDir}/${name}.js`,
                 dir.execa.config
             )

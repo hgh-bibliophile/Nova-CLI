@@ -16,13 +16,18 @@ module.exports = async (nova, options, signale, debug) => {
 			task: () => nova.listr.js()
 		},
 		{
-			title: `$ nova prettify`,
+			title: `$ nova html` + (options.pro ? ` --pro` : ``),
 			enabled: () => true,
+			task: () => nova.listr.html()
+		},
+		{
+			title: `$ nova prettify`,
+			enabled: () => !options.pro,
 			task: () => nova.listr.prettify()
 		},
 		{
 			title: `$ nova img` + (options.pro ? ` --pro` : ``),
-			enabled:  () => false,
+			enabled:  () => options.img,
 			task: () => nova.listr.img()
 		}
 		], {
@@ -30,7 +35,7 @@ module.exports = async (nova, options, signale, debug) => {
 			collapse: false
 	}),
 	nova.ext.runAll = async () => {
-		await all.setup()		
+		await all.setup()
 		return new Promise(async (resolve,reject) => {
 			try {
 				await all.tasks.run()
