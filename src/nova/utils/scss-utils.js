@@ -17,7 +17,17 @@ module.exports = (nova, options, signale, debug) => {
 		: `--source-map`
 	try {
 		await execa.command(`${dir.execa.sass} ${srcmps} ${dir.src.styles}:${outputDir}`, dir.execa.config)
-		return resolve(true)
+		if (options.dev) {
+			glob(outputDir + '/*', {nodir: true}, (err, files) => {
+				if (err) return reject(err)
+				files.forEach(fp => {
+					nova.ext.renameForce(fp, path.dirname(fp) + '/' + path.basename(fp).replace('SCSS', 'CSS'))
+				})
+				return resolve(true)
+			})
+		} else {
+			return resolve(true)
+		}
 	} catch (err) {
 		return reject(err)
 	}
@@ -35,13 +45,13 @@ module.exports = (nova, options, signale, debug) => {
 						const css = await fs.readFile(fp)
 						const result = await postcss([autoprefixer]).process(css, { from: fp, to: fp, map: srcmps })
 						await fs.outputFile(fp, result.css)
-						if ( result.map ) await fs.writeFile(fp + '.map', result.map)
+						if ( result.map ) await fs.writeFile(fp + '.map', result.map.toString())
 						return resolve(true)
 					} catch (err) {
 						return reject(err)
 					}
 				})
-			})			
+			})
 		} catch (err) {
 			return reject(err)
 		}
@@ -53,8 +63,8 @@ module.exports = (nova, options, signale, debug) => {
 			try {
 				await glob(srcDir, {ignore: outDir + '/*.min.css'}, async (err, files) => {
 					try {
-						const output = await new CleanCSS({ returnPromise: true }).minify(files)
-						await files.forEach(file => 	fs.writeFile(file, output.styles))
+						const output = await new CleanCSS({ returnPromise: true, rebase: false }).minify(files)
+						await files.forEach(file => fs.writeFile(file, output.styles))
 						await nova.ext.rename('css')
 						return resolve(true)
 					} catch (err) {

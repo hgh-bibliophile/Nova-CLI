@@ -2,12 +2,10 @@ const {program} = require("commander")
 const project = require("./config.js")
 const path = require('path')
 const fs = require('fs-extra')
-const stack = require('stack-utils')
 const nova = program
 
 nova.ext = {}
 nova.listr = {}
-nova.trace = new stack()
 
 let n = {
 	loggers: async () => {

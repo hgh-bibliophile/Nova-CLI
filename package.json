@@ -52,7 +52,6 @@
 		"rimraf": "^3.0.2",
 		"sass": "^1.26.3",
 		"signale": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\GitHub\\signale",
-		"stack-utils": "^2.0.1",
 		"terser": "^4.6.11"
 	},
 	"devDependencies": {}

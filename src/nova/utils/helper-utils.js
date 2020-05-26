@@ -14,8 +14,10 @@ module.exports = (nova, options, signale, debug) => {
 			glob(globs, {nodir: true, ignore: '**/_*'}, (err, files) => {
 				if (err) return reject(err)
 				let base
-				files.forEach(fp => {base = path.basename(fp, path.extname(fp))})
-				const  name = dir + '/' + base + '.js'
+				files.forEach(fp => {
+					base = path.basename(fp)
+				})
+				const  name = dir + '/' + base
 				return resolve(name)
 			})
 		})
@@ -35,7 +37,7 @@ module.exports = (nova, options, signale, debug) => {
 		return new Promise(async(resolve, reject) => {
 			await fs.mkdirp(outDir)
 			const filterFunc = async (src, dest) => {
-				return src === srcDir || path.extname(src) === ('.' + type)
+				return src === srcDir || path.extname(src) !== `.${type}`
 			}
 			const filter = !type ? '' : { filter: filterFunc }
 			fs.copy(srcDir, outDir, filter, (err) => {
@@ -89,7 +91,7 @@ module.exports = (nova, options, signale, debug) => {
 				: file.extname === '.map'
 				? `.${extn}`
 				: ''
-				return path.join(file.dirname, name + optExt+ file.extname)
+				return path.join(file.dirname, name + optExt + file.extname)
 			}
 		}
 		function photo() {
@@ -97,6 +99,7 @@ module.exports = (nova, options, signale, debug) => {
 				return path.join(file.dirname, file.filename.toLowerCase() + file.extname)
 			}
 		}
+		
 		const index = '((H|h)ome|(I|i)ndex)'
 		const about = '(A|a)bout'
 		const contact = '(C|c)ontact'
@@ -113,16 +116,17 @@ module.exports = (nova, options, signale, debug) => {
 		renamer.matcher(photos, photo())
 		renamer.matcher(favicon, photo())
 		
+		
 		return new Promise(async (resolve, reject) => {
 			try {
-				await glob(dirGlob, {nodir: true}, (err, files) => {
+				glob(dirGlob, {nodir: true}, (err, files) => {
 					if (err) return reject(err)
 					files.forEach(fp => {
 						nova.ext.renameForce(fp,renamer.rename(fp))
 						.catch(err =>  reject(err))
 					})
+					return resolve(true)
 				})
-				return resolve(true)
 			} catch (err) {
 				return reject(err)
 			}
@@ -136,7 +140,7 @@ module.exports = (nova, options, signale, debug) => {
 			styles: {find: new RegExp(/styles\/.*\.css/ig), to: 'styles.min.css'},
 			scripts: {find: new RegExp(/scripts\/.*\.js/ig), to: 'scripts.min.js'},
 			photos: {find: new RegExp(/(\.\.\/)*photos\//ig), to: 'photos/'},
-			img: {find: new RegExp(/(\.\.\/)*photos\/(\w|\/|\-|\.)*\.(ico|png|jpg|jpeg)/ig), to: (match) => match.toLowerCase()}
+			img: {find: new RegExp(/(\.\.\/)*photos\/(\w|\/|\-|\.|\&)*\.(ico|png|jpg|jpeg)/ig), to: (match) => match.toLowerCase()}
 		}
 		let find = []
 		let to = []
@@ -164,7 +168,7 @@ module.exports = (nova, options, signale, debug) => {
 	nova.ext.rename = (type) => {
 		return new Promise(async(resolve, reject) => {
 			if (!options.pro) return resolve('Returned')
-			const ext = type === 'js'||'css'
+			const ext = type === ('js'||'css')
 			? 'min'
 			: false
 			try {
