@@ -36,7 +36,6 @@
 	"license": "MIT",
 	"dependencies": {
 		"autoprefixer": "^9.7.6",
-		"clean-css": "^4.2.3",
 		"clean-css-cli": "^4.3.0",
 		"commander": "^5.0.0",
 		"easy-renamer": "^0.3.1",

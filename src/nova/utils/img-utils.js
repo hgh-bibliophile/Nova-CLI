@@ -4,7 +4,7 @@ module.exports = (nova, options, signale, debug) => {
         const dir = require('../../config.js')
         return new Promise(async (resolve, reject) => {
         try {
-            await nova.ext.copy(dir.src.photos, outDir, 'ini')
+            await nova.ext.copy(dir.src.photos, outDir, ['.jpg','.png', '.ico'])
             await nova.ext.rename('photos')
             return resolve(true)
         } catch (error) {

@@ -9,13 +9,14 @@ const promisify = require('util').promisify
 const rimraf = promisify(require('rimraf'))
 const rename = promisify(gfs.rename)
 module.exports = (nova, options, signale, debug) => {
-	nova.ext.base = (globs, dir) => {
+	nova.ext.base = (globs, dir, find, replace) => {
 		return new Promise((resolve, reject) => {
 			glob(globs, {nodir: true, ignore: '**/_*'}, (err, files) => {
 				if (err) return reject(err)
 				let base
 				files.forEach(fp => {
 					base = path.basename(fp)
+					if (find) base.replace(find, replace)
 				})
 				const  name = dir + '/' + base
 				return resolve(name)
@@ -36,36 +37,40 @@ module.exports = (nova, options, signale, debug) => {
 	nova.ext.copy = (srcDir, outDir, type) => {
 		return new Promise(async(resolve, reject) => {
 			await fs.mkdirp(outDir)
-			const filterFunc = async (src, dest) => {
-				return src === srcDir || path.extname(src) !== `.${type}`
+			const filterFunc = async (src) => {
+				const match = (i) => new RegExp(i, "gi").test(src)
+				return src === srcDir || type.some(match)
 			}
-			const filter = !type ? '' : { filter: filterFunc }
-			fs.copy(srcDir, outDir, filter, (err) => {
+			fs.copy(srcDir, outDir, { filter: filterFunc }, (err) => {
 				if (err) return reject(err)
 				return resolve(true)
 			})
+			
 		})
 	},
 	nova.ext.renameForce = async (oldPath, newPath) => {
-		try {
-			await rename(oldPath, newPath)
-		} catch (err) {
-			switch (err.code) {
-				case 'ENOTEMPTY':
-				case 'EEXIST':
-					await rimraf(newPath)
-					await rename(oldPath, newPath)
-					break
-				// weird Windows stuff
-				case 'EPERM':
-					await new Promise(resolve => setTimeout(resolve, 200))
-					await rimraf(newPath)
-					await rename(oldPath, newPath)
-					break
-				default:
-					throw err
-				}
-		}
+		return new Promise(async(resolve, reject) => {
+			try {
+				await rename(oldPath, newPath)
+			} catch (err) {
+				switch (err.code) {
+					case 'ENOTEMPTY':
+					case 'EEXIST':
+						await rimraf(newPath)
+						await rename(oldPath, newPath)
+						break
+					// weird Windows stuff
+					case 'EPERM':
+						await new Promise(resolve => setTimeout(resolve, 200))
+						await rimraf(newPath)
+						await rename(oldPath, newPath)
+						break
+					default:
+						throw err
+					}
+			}
+			return resolve(true)
+		})
 	}
 	nova.ext.file = async (gDir, ext, opt) => {
 		gDir = !gDir ? dir.dist.root : gDir
@@ -121,9 +126,10 @@ module.exports = (nova, options, signale, debug) => {
 			try {
 				glob(dirGlob, {nodir: true}, (err, files) => {
 					if (err) return reject(err)
-					files.forEach(fp => {
-						nova.ext.renameForce(fp,renamer.rename(fp))
-						.catch(err =>  reject(err))
+					files.forEach(async fp => {
+						const exists = await fs.pathExists(fp)
+						if (!exists) return
+						await nova.ext.renameForce(fp,renamer.rename(fp)).catch(err =>  reject(err))
 					})
 					return resolve(true)
 				})
@@ -154,6 +160,7 @@ module.exports = (nova, options, signale, debug) => {
 					to.push(value.to);
 				}))
 				await replace({
+					allowEmptyPaths: true,
 					files: fileType,
 					from: find,
 					to: to,
@@ -161,7 +168,7 @@ module.exports = (nova, options, signale, debug) => {
 				})
 				return resolve(true)
 			} catch (err) {
-				return reject(err)
+				return resolve(err)
 			}
 		})
 	},
@@ -175,6 +182,20 @@ module.exports = (nova, options, signale, debug) => {
 				await nova.ext.file(dir.dist.root, type, ext)
 				await nova.ext.replace(type)
 				return resolve(true)
+			} catch (err) {
+				return reject(err)
+			}
+		})
+	},
+	nova.ext.forceRename = type => {
+		return new Promise(async(resolve, reject) => {
+			if (!options.pro) return resolve(true)
+			try {
+				await nova.ext.rename(type)
+				glob(dir.dist[type], {nodir: true, ignore: [dir.dist.photos, './**/*.min*', './**/*scripts.min', './**/about.html', './**/contact.html', './**/index.html']}, async (err, files) => {
+					for (let fp of files) rimraf(fp)
+					return resolve(true)
+				})
 			} catch (err) {
 				return reject(err)
 			}

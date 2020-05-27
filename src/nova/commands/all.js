@@ -7,7 +7,7 @@ module.exports = async (nova, options, signale, debug) => {
 	all.tasks =  new Listr([
 		{
 			title: `$ nova scss` + (options.pro ? ` --pro` : ``),
-			enabled: () =>true,
+			enabled: () => true,
 			task: () => nova.listr.scss()
 		},
 		{

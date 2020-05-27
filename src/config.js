@@ -6,6 +6,7 @@ const sass = `sass`
 const terser = `terser`
 const prettier = `prettier`
 const htmlclean = `htmlclean`
+const cleancss = `cleancss`
 const config = {preferLocal: true, localDir: bin }
 const exe = false
 /*pkg
@@ -14,6 +15,7 @@ const sass = path.join(__dirname, '../node_modules/sass/sass.js')
 const terser = path.join(__dirname, '../node_modules/terser/bin/terser')
 const prettier = path.join(__dirname, "../node_modules/prettier/bin-prettier.js")
 const htmlclean = path.join(__dirname, "../node_modules/htmlclean-cli/htmlclean-cli.js")
+const cleancss = path.join(__dirname, "../node_modules/clean-css-cli/bin/cleancss")
 const config = {}
 const exe = true*/
 const dDir = {
@@ -74,7 +76,8 @@ module.exports = {
 	  bin: bin,
 	  sass: sass,
 	  terser: terser,
-	  htmlclean: htmlclean,
+    htmlclean: htmlclean,
+    cleancss: cleancss,
 	  prettier: prettier
   }
 }

@@ -1,12 +1,11 @@
 const execa = require('execa')
 const dir = require('../../config.js')
-const glob = require('glob')
 const fs = require('fs-extra')
-const oldfs = require('fs')
-const path = require('path')
-const CleanCSS = require('clean-css')
+const glob = require('glob')
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
+
+
 module.exports = (nova, options, signale, debug) => {
   nova.ext.scss = async (outputDir, args) => {
     return new Promise(async (resolve, reject) => {
@@ -17,17 +16,7 @@ module.exports = (nova, options, signale, debug) => {
 		: `--source-map`
 	try {
 		await execa.command(`${dir.execa.sass} ${srcmps} ${dir.src.styles}:${outputDir}`, dir.execa.config)
-		if (options.dev) {
-			glob(outputDir + '/*', {nodir: true}, (err, files) => {
-				if (err) return reject(err)
-				files.forEach(fp => {
-					nova.ext.renameForce(fp, path.dirname(fp) + '/' + path.basename(fp).replace('SCSS', 'CSS'))
-				})
-				return resolve(true)
-			})
-		} else {
-			return resolve(true)
-		}
+		return resolve(true)
 	} catch (err) {
 		return reject(err)
 	}
@@ -35,22 +24,24 @@ module.exports = (nova, options, signale, debug) => {
     
   },
   nova.ext.prefix = async ([srcDir, outDir]) => {
-	return new Promise(async (resolve, reject) => {
+	return new Promise((resolve, reject) => {
 		const srcmps = options.dev ? { inline: false } : options.pro ? false : { inline: false }
 		try {
-			await glob(srcDir, {nodir: true, ignore: outDir + '/*.min.css'}, (err, files) => {
+			glob(srcDir, {nodir: true, ignore: outDir + '/*.min.css'}, (err, files) => {
 				if (err) return reject(err)
 				files.forEach(async fp => {
 					try {
-						const css = await fs.readFile(fp)
+						//const exists = await fs.pathExists(fp)
+						//if (!exists) return
+						const css = await fs.readFile(fp).catch(err => {throw new Error(err + files)})
 						const result = await postcss([autoprefixer]).process(css, { from: fp, to: fp, map: srcmps })
 						await fs.outputFile(fp, result.css)
 						if ( result.map ) await fs.writeFile(fp + '.map', result.map.toString())
-						return resolve(true)
 					} catch (err) {
 						return reject(err)
 					}
 				})
+				return resolve(true)
 			})
 		} catch (err) {
 			return reject(err)
@@ -60,20 +51,18 @@ module.exports = (nova, options, signale, debug) => {
 	nova.ext.cssmin = async ([srcDir, outDir]) => {
 		return new Promise(async (resolve, reject) => {
 			if (!options.pro) return resolve(true)
-			try {
-				await glob(srcDir, {ignore: outDir + '/*.min.css'}, async (err, files) => {
-					try {
-						const output = await new CleanCSS({ returnPromise: true, rebase: false }).minify(files)
-						await files.forEach(file => fs.writeFile(file, output.styles))
-						await nova.ext.rename('css')
-						return resolve(true)
-					} catch (err) {
-						return reject(err)
-					}
-				})
-			} catch (err) {
-				return reject(err)
-			}
+			glob(srcDir,{nodir: true, ignore: [outDir + '/*min.css']},async (err, paths)=> {
+				if (err) return reject(err)
+				const path = paths.toString()
+				try {
+					await execa.command(`${dir.execa.cleancss} --skip-rebase -o ${path} ${path}`, dir.execa.config)
+					await nova.ext.forceRename('css')
+					return resolve(true)
+				} catch (err) {
+					return reject(err)
+				}
+			} )
+			
 		})
 	}
 }

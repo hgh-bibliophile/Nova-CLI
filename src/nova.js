@@ -44,15 +44,21 @@ let n = {
 			fullPath = await path.join(__dirname, 'nova', 'commands', args._name + '.js')
 			reqrPath = await path.relative(__dirname, fullPath)
 			try {
-				if (!project.exe) exists = await fs.pathExists(fullPath)
-				if (exists) {
-					require('./' + reqrPath)(nova, args, n.signale, n.debug)
+				let exists
+				if (!project.exe) {
+					exists = await fs.pathExists(fullPath)
+					if (exists) {
+						require('./' + reqrPath)(nova, args, n.signale, n.debug)
+					} else {
+						require('./require.js')(nova, args, n.signale, n.debug)
+					}
 				} else {
-					require('./require.js')
+					require('./' + reqrPath)(nova, args, n.signale, n.debug)
 				}
 				return resolve(nova.ext)
 			} catch (error) {
-				return reject(new Error("Required files weren't found"))
+				require('./require.js')(nova, args, n.signale, n.debug)
+				return reject(new Error("Required files weren't found\n" + error))
 			}
 		})
 	}

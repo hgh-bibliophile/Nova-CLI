@@ -15,7 +15,7 @@ module.exports = async (nova, options, signale, debug)=> {
 		{
 			title: 'Copy .html files',
 			enabled: () => !options.pro,
-			task: () => nova.ext.copy(html.src, html.dir, 'html')
+			task: () => nova.ext.copy(html.src, html.dir, ['html'])
 		},
 		{
 			title: 'Prettify .html files',
