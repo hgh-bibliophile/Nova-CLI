@@ -33,6 +33,9 @@
 			"nova:prettify"
 		]
 	},
+	"pkg": {
+		"scripts": "src/**/*.js"
+	},
 	"license": "MIT",
 	"dependencies": {
 		"autoprefixer": "^9.7.6",
@@ -40,6 +43,7 @@
 		"commander": "^5.0.0",
 		"easy-renamer": "^0.3.1",
 		"execa": "^4.0.0",
+		"fast-glob": "^3.2.2",
 		"fs-extra": "^9.0.0",
 		"glob": "^7.1.6",
 		"htmlclean-cli": "^1.0.9",
@@ -47,11 +51,9 @@
 		"postcss": "^7.0.27",
 		"prettier": "^2.0.4",
 		"rc": "^1.2.8",
-		"replace-in-file": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\GitHub\\replace-in-file\\",
 		"rimraf": "^3.0.2",
 		"sass": "^1.26.3",
 		"signale": "C:\\Users\\Hannah\\Documents\\MasterFiles\\Coding\\GitHub\\signale",
 		"terser": "^4.6.11"
-	},
-	"devDependencies": {}
+	}
 }

@@ -5,6 +5,8 @@ const glob = require('glob')
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
 
+const promisify = require('util').promisify
+const rimraf = promisify(require('rimraf'))
 
 module.exports = (nova, options, signale, debug) => {
   nova.ext.scss = async (outputDir, args) => {
@@ -56,7 +58,7 @@ module.exports = (nova, options, signale, debug) => {
 				const path = paths.toString()
 				try {
 					await execa.command(`${dir.execa.cleancss} --skip-rebase -o ${path} ${path}`, dir.execa.config)
-					await nova.ext.forceRename('css')
+					await nova.ext.refresh('css')
 					return resolve(true)
 				} catch (err) {
 					return reject(err)
