@@ -59,7 +59,7 @@ Options:
 
 #### v4.0.0 | All, Img, & HTML Features Complete
 
-27 May, 2020
+28 May, 2020
 
 #### v3.0.0 | JS Features Complete
 

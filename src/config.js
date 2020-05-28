@@ -1,6 +1,6 @@
 const project = require('../package.json')
 const path = require('path')
-/*node*/
+/*node
 const bin = path.join(__dirname, '../node_modules/.bin')
 const sass = `sass`
 const terser = `terser`
@@ -8,8 +8,8 @@ const prettier = `prettier`
 const htmlclean = `htmlclean`
 const cleancss = `cleancss`
 const config = {preferLocal: true, localDir: bin }
-const exe = false
-/*pkg
+const exe = false*/
+/*pkg*/
 const bin = ''
 const sass = path.join(__dirname, '../node_modules/sass/sass.js')
 const terser = path.join(__dirname, '../node_modules/terser/bin/terser')
@@ -17,7 +17,7 @@ const prettier = path.join(__dirname, "../node_modules/prettier/bin-prettier.js"
 const htmlclean = path.join(__dirname, "../node_modules/htmlclean-cli/htmlclean-cli.js")
 const cleancss = path.join(__dirname, "../node_modules/clean-css-cli/bin/cleancss")
 const config = {}
-const exe = true*/
+const exe = true
 const dDir = {
   name: project.name,
   version: project.version,

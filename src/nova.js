@@ -168,8 +168,9 @@ module.exports = {
 			.option("-d, --dev", "Test in dev mode")
 			.option("-p, --pro", "Test in pro mode")
 			.action(async (args) => {
+				require('./nova/utils.js')(nova, args, n.signale, n.debug)
 				try {
-					n.signale.info(project.config)
+					await nova.ext.refresh('html')
 				} catch (err) {
 					n.log(err)
 				}

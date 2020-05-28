@@ -15,7 +15,7 @@ module.exports = (nova, options, signale, debug) => {
             await execa.command(`${dir.execa.terser} ${dir.src.js} ${srcmps} -o ${name}`,
                 dir.execa.config
             )
-            await nova.ext.rename('js')
+            await nova.ext.refresh('js')
             return resolve(true)
         } catch (error) {
             return reject(error)

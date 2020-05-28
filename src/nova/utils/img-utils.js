@@ -5,7 +5,7 @@ module.exports = (nova, options, signale, debug) => {
         return new Promise(async (resolve, reject) => {
         try {
             await nova.ext.copy(dir.src.photos, outDir, ['.jpg','.png', '.ico'])
-            await nova.ext.rename('photos')
+            await nova.ext.refresh('photos')
             return resolve(true)
         } catch (error) {
             return reject(error)

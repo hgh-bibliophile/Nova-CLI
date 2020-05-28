@@ -9,7 +9,7 @@ module.exports = (nova, options, signale, debug)=> {
             await execa.command(`${dir.execa.htmlclean} -i ${dir.src.html} -o ${outDir}`,
                 dir.execa.config
             )
-            await nova.ext.rename('html')
+            await nova.ext.refresh('html')
             return resolve(true)
         } catch (error) {
             return reject(error)
