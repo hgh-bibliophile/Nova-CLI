@@ -38,22 +38,22 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"autoprefixer": "^9.7.6",
-		"clean-css-cli": "^4.3.0",
-		"commander": "^5.0.0",
+		"autoprefixer": "^10.2.5",
+		"clean-css-cli": "^5.3.0",
+		"commander": "^7.2.0",
 		"easy-renamer": "^0.3.1",
-		"execa": "^4.0.0",
+		"execa": "^5.0.0",
 		"fast-glob": "^3.2.2",
-		"fs-extra": "^9.0.0",
+		"fs-extra": "^10.0.0",
 		"glob": "^7.1.6",
 		"htmlclean-cli": "^1.0.9",
 		"listr": "^0.14.3",
-		"postcss": "^7.0.27",
+		"postcss": "^8.3.0",
 		"prettier": "^2.0.4",
 		"rc": "^1.2.8",
 		"rimraf": "^3.0.2",
 		"sass": "^1.26.3",
 		"signale": "file:../../GitHub/signale",
-		"terser": "^4.6.11"
+		"terser": "^5.7.0"
 	}
 }
